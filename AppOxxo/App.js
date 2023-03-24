@@ -1,21 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Image, View } from 'react-native';
-import icon from './assets/oxxo_logo.png';
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator  } from "@react-navigation/stack"
+import AnimationInitial from "./src/components/AnimationInitial/AnimationInitial";
+
+const Stack = createStackNavigator()
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Image source={icon}/>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="AnimationInitial" component={AnimationInitial} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },  
-});
