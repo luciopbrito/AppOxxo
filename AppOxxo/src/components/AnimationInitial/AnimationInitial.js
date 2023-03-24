@@ -1,63 +1,48 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Animated, View, StyleSheet, Image } from "react-native";
 import { useNavigation } from '@react-navigation/native'
-import icon from '../../../assets/oxxo_logo.png'
-import { Text } from "react-native";
+import icon from '../../../assets/logo.png'
 
-const AnimationInitial = ({ navigation }) => {
-    const [animate, setAnimate] = useState(new Animated.Value(0))
-    const [showAnimation, setShowAnimation] = useState(true)
-    const optionsNavigation = useNavigation();
+const AnimationInitial = () => {
+  const [animate, setAnimate] = useState(new Animated.Value(0))
+  const [showAnimation, setShowAnimation] = useState(true)
+  const navigation = useNavigation();
 
-    // remove title of view/component
-    useLayoutEffect(() => {
-        optionsNavigation.setOptions({title: ''})
-    }, [optionsNavigation]);
+  // remove title of view/component
+  useLayoutEffect(() => {
+    navigation.setOptions({title: ''})
+  }, [navigation]);
 
+  useEffect(() => {
+    Animation();
+  },[]);
 
-    useEffect(() => {
-        Animation()
-    },[]);
-
-
-    const Animation = () => {
-        Animated.timing(animate, {
-            toValue: 1,
-            duration: 3000,
-            useNativeDriver: true,
-        }).start(() => {
-           setShowAnimation(false)
-        });
-    }
-    
-    if (showAnimation) {
-        return (
-            <View style={styles.container}>
-                <Animated.View style={{ opacity: animate }}>
-                    <Image source={icon} />
-                </Animated.View>
-            </View>
-        );
-    }
-    else {
-        return (
-            <View>
-                <Text>Login</Text>
-            </View>
-        )   
-    }
-
+  const Animation = () => {
+    Animated.timing(animate, {
+      toValue: 1,
+      duration: 3000,
+      useNativeDriver: true,
+    }).start(() => setShowAnimation(false));
+  }
+  
+  return (
+    <View style={styles.container}>
+      {showAnimation ? (
+        <Animated.View style={{ opacity: animate }}>
+          <Image source={icon} />
+        </Animated.View>
+      ) : navigation.navigate('Login',{type: 'cliente'}) }      
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'red'
-    },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'red'
+  },
 });
 
 export default AnimationInitial;
