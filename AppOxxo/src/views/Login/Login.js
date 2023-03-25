@@ -15,7 +15,7 @@ const Login = ({ navigation, route }) => {
 
     // remove title of view/component
     useLayoutEffect(() => {
-        optionsNavigation.setOptions({title: ''})
+        optionsNavigation.setOptions({ title: '' })
     }, [optionsNavigation]);
 
 
@@ -51,11 +51,14 @@ const Login = ({ navigation, route }) => {
                     </View>
                     <View style={styles.container_form}>
                         <TextInput placeholder='Digite seu E-mail' style={styles.input} onChangeText={email} />
-                        <TextInput placeholder='Digite sua senha' style={styles.input} onChangeText={email} />
+                        <TextInput placeholder='Digite sua senha' style={styles.input} onChangeText={password} />
                         <View style={styles.container_forgetPassword}>
                             <Text style={styles.forgetPassword}>
                                 Esqueceu a senha?
                             </Text>
+                            {/* <Text style={styles.forgetPassword} onPress={() => goScreenRegistration}>
+                                funcionário?
+                            </Text> */}
                         </View>
                         <View style={styles.container_btnSubmit}>
                             <TouchableOpacity sytle={styles.btnSubmit} onPress={() => submit(choiceScreen)}>
@@ -141,6 +144,11 @@ const styles = StyleSheet.create({
     },
     cadastro: {
         textTransform: 'uppercase',
+        color: '#fff',
+        marginTop: 30,
+        fontWeight: 'bold',
+    },
+    funcionario: {
         color: '#fff',
         marginTop: 30,
         fontWeight: 'bold',

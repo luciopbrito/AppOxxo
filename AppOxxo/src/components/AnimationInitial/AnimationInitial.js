@@ -10,12 +10,12 @@ const AnimationInitial = () => {
 
   // remove title of view/component
   useLayoutEffect(() => {
-    navigation.setOptions({title: ''})
+    navigation.setOptions({ title: '' })
   }, [navigation]);
 
   useEffect(() => {
     Animation();
-  },[]);
+  }, []);
 
   const Animation = () => {
     Animated.timing(animate, {
@@ -24,14 +24,14 @@ const AnimationInitial = () => {
       useNativeDriver: true,
     }).start(() => setShowAnimation(false));
   }
-  
+
   return (
     <View style={styles.container}>
       {showAnimation ? (
         <Animated.View style={{ opacity: animate }}>
           <Image source={icon} />
         </Animated.View>
-      ) : navigation.navigate('Login',{type: 'cliente'}) }      
+      ) : navigation.navigate('Login', {type: 'cliente'})}
     </View>
   )
 }
