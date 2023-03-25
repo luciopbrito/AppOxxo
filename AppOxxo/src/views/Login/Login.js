@@ -18,7 +18,6 @@ const Login = ({ navigation, route }) => {
         optionsNavigation.setOptions({title: ''})
     }, [optionsNavigation]);
 
-
     useEffect(() => {
         setChoiceScreen(route.params.type);
     }, []);
@@ -51,14 +50,14 @@ const Login = ({ navigation, route }) => {
                     </View>
                     <View style={styles.container_form}>
                         <TextInput placeholder='Digite seu E-mail' style={styles.input} onChangeText={email} />
-                        <TextInput placeholder='Digite sua senha' style={styles.input} onChangeText={email} />
+                        <TextInput placeholder='Digite sua senha' style={styles.input} onChangeText={password} />
                         <View style={styles.container_forgetPassword}>
                             <Text style={styles.forgetPassword}>
                                 Esqueceu a senha?
                             </Text>
                         </View>
                         <View style={styles.container_btnSubmit}>
-                            <TouchableOpacity sytle={styles.btnSubmit} onPress={() => submit(choiceScreen)}>
+                            <TouchableOpacity onPress={() => submit(choiceScreen)}>
                                 <Text style={styles.btnSubmit_text} >Entrar</Text>
                             </TouchableOpacity>
                         </View>
