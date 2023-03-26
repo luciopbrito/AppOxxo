@@ -1,48 +1,44 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import { Animated, View, StyleSheet, Image } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Animated, StyleSheet, Image } from "react-native";
 import { useNavigation } from '@react-navigation/native'
 import icon from '../../../assets/logo.png'
+import { Box, NativeBaseProvider } from "native-base";
 
 const AnimationInitial = () => {
-  const [animate, setAnimate] = useState(new Animated.Value(0))
-  const [showAnimation, setShowAnimation] = useState(true)
-  const navigation = useNavigation();
+    const [animate, setAnimate] = useState(new Animated.Value(0))
+    const navigation = useNavigation();
 
-  // remove title of view/component
-  useLayoutEffect(() => {
-    navigation.setOptions({ title: '' })
-  }, [navigation]);
+    useEffect(() => {
+        Animation();
+    }, []);
 
-  useEffect(() => {
-    Animation();
-  }, []);
+    const Animation = () => {
+        console.log("animação incial...")
+        Animated.timing(animate, {
+            toValue: 1,
+            duration: 3000,
+            useNativeDriver: true,
+        }).start(() => { navigation.navigate('LoginScreen', { type: 'cliente' }); console.log("redirecinado para login tipo cliente") });
+    }
 
-  const Animation = () => {
-    Animated.timing(animate, {
-      toValue: 1,
-      duration: 3000,
-      useNativeDriver: true,
-    }).start(() => setShowAnimation(false));
-  }
-
-  return (
-    <View style={styles.container}>
-      {showAnimation ? (
-        <Animated.View style={{ opacity: animate }}>
-          <Image source={icon} />
-        </Animated.View>
-      ) : navigation.navigate('Login', {type: 'cliente'})}
-    </View>
-  )
+    return (
+        <NativeBaseProvider>
+            <Box style={styles.container}>
+                <Animated.View style={{ opacity: animate }}>
+                    <Image source={icon} />
+                </Animated.View>
+            </Box>
+        </NativeBaseProvider>
+    )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'red'
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'red'
+    },
 });
 
 export default AnimationInitial;
