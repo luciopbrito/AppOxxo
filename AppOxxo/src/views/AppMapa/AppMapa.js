@@ -1,49 +1,65 @@
-import React, { useState } from "react";
-import { Box, NativeBaseProvider, Text, ScrotexllView, Image } from "native-base";
-import { StyleSheet } from "react-native";
-import image_logo from "../../../assets/logo.png";
-import { requestForegroundPermissionsAsync, getCurrentPositionAsync, LocationObject } from "expo-location";
+import React from "react";
+import { Image, StyleSheet, View } from "react-native";
+import MapView from 'react-native-maps';
 
 export default function AppMapa() {
 
     return (
-        <NativeBaseProvider>
-            <Box style={Styles.box_background}>
-                <Box style={[Styles.image_logo]}>
-                    <Image borderRadius={5} source={image_logo} alt="logo_da_oxxo" />
-                </Box>
-                <Box>
-                    <Text fontSize={50}>Deu bom</Text>
-                </Box>
-            </Box>
-        </NativeBaseProvider >
+
+        <View style={Styles.container}>
+            <View style={Styles.boxLogo}>
+                <Image style={Styles.image_logo} source={require('../../../assets/logo.png')} />
+            </View>
+
+            <View>
+                <MapView style={Styles.map}
+                    initialRegion={{
+                        latitude: -23.464363,
+                        longitude: -46.523467,
+                        latitudeDelta: 0.00922,
+                        longitudeDelta: 0.00421,
+                    }}
+                >
+                </MapView>
+            </View>
+        </View>
 
     )
-
-
 }
 
 
+//===== CSS =======///
 
 
-
-
-//======Styles=======//
 
 const Styles = StyleSheet.create({
-    box_background: {
+    container: {
+        flex: 1,
         backgroundColor: "#f00",
-        width: "100%"
+        justifyContent: 'center',
+        paddingHorizontal: 2,
+    },
+    map: {
+        height: "90%",
+
+
+    },
+    boxLogo: {
+        height: "15%",
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 30,
 
 
     },
     image_logo: {
-        margin: 20,
-        alignItems: 'center',
-
-
+        borderRadius: 5,
+        height: '45%',
+        width: '20%'
 
 
     },
+
+
 
 })

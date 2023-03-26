@@ -12,9 +12,9 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="AppMapa" component={AppMapa} />
-        <Stack.Screen name="CadastroCliente" component={CadastroCliente} />
         <Stack.Screen name="AnimationInitial" component={AnimationInitial} />
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="CadastroCliente" component={CadastroCliente} />
 
 
       </Stack.Navigator>
