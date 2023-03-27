@@ -6,6 +6,7 @@ import CadastroClienteScreen from "./src/views/CadastroClienteScreen/CadastroCli
 import LoginScreen from "./src/views/LoginScreen/LoginScreen";
 import ProdutosScreen from "./src/views/ProdutosScreen/ProdutosScreen";
 import AppMapaScreen from './src/views/AppMapaScreen/AppMapaScreen';
+import AccountScreen from './src/views/AccountScreen';
 
 const Stack = createStackNavigator()
 
@@ -57,6 +58,15 @@ export default function App() {
                     }}
                     name="AppMapaScreen"
                     component={AppMapaScreen}
+                />
+                <Stack.Screen
+                    options={{
+                        title: '',
+                        headerTransparent: true,
+                        headerShown: false
+                    }}
+                    name="AccountScreen"
+                    component={AccountScreen}
                 />
             </Stack.Navigator>
         </NavigationContainer>

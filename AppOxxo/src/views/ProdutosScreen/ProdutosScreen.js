@@ -1,47 +1,53 @@
-import React, { useEffect, useState } from "react"
-import { HStack, Pressable, Icon, Box, Text, NativeBaseProvider, Image, Avatar, FlatList } from "native-base"
-import { Feather } from "@expo/vector-icons"
+import React, { useState } from "react"
+import { Box, Text, NativeBaseProvider, Image } from "native-base"
 import { Animated, Button, StyleSheet } from "react-native"
-import Logo from '../../../assets/logo.png'
-import LoginScreen from '../LoginScreen/LoginScreen'
 import { ScrollView } from "react-native-gesture-handler"
+import Tabs from "../../components/Tabs"
+import Header from "../../components/Header"
 
 export default function ProdutosScreen({ navigation }) {
     const [openMenu, setOpenMenu] = useState(false);
     const [animationMenu, setAnimationMenu] = useState(new Animated.Value(0));
-    // const Drawer = createDrawerNavigator()
 
-    const [datas, setDatas] = useState([])
-
-    useEffect(() => {
-        setDatas(data);
-    }, [])
+    const data = [
+        {
+            id: 1,
+            name: 'Leite em pó 500g',
+            uri: 'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSxUvR_hVNAd83dnKmPN48cuqXVoqFMg5SVgvS4w7g1pMbYeRfHK9DSYaIXmZHNnF1xZS0W7Z8z20s&usqp=CAc',
+        },
+        {
+            id: 2,
+            name: 'café Pilão 400g',
+            uri: 'https://qualycestas.vteximg.com.br/arquivos/ids/157479-292-292/WhatsApp-Image-2022-07-14-at-07.27.57.jpg?v=637937623884600000',
+        },
+        {
+            id: 3,
+            name: 'Margaina 500g',
+            uri: 'https://naturaldaterra.com.br/media/catalog/product/1/2/123375---7893000383005---marg-qualy-ssal-500g.jpg?auto=webp&format=pjpg&width=640&height=800&fit=cover',
+        },
+        {
+            id: 4,
+            name: 'Pao de Forma',
+            uri: 'https://images.tcdn.com.br/img/img_prod/666230/pao_de_forma_visconti_400g_1765_1_20200514234408.jpg',
+        },
+        {
+            id: 5,
+            name: 'Leite Integral 1L',
+            uri: 'https://m.media-amazon.com/images/I/51wNnRI8zTL._AC_SX522_.jpg',
+        },
+        {
+            id: 6,
+            name: 'Biscoito 400g',
+            uri: 'https://a-static.mlcdn.com.br/800x560/biscoito-de-polvilho-salgado-globo-30g/casasantaluzia2/354/1e616f604cbeebd35b3e5f86b646a878.jpeg',
+        },
+    ]
 
     return (
         <NativeBaseProvider>
-            <Box flex={1} backgroundColor="#f8f8f8" flexDirection="column" safeArea>
-                <HStack background={'#f00'} paddingTop='15' paddingBottom='15' paddingRight='10' paddingLeft='10' w="100%" display={'flex'} alignItems="center" justifyContent="space-between"  >
-                    <Box>
-                        <Pressable>
-                            <Icon
-                                as={Feather}
-                                name="menu"
-                                size={10}
-                                color="#fff"
-                                onPress={() => setOpenMenu(!openMenu)}
-                            >
-                            </Icon>
-                        </Pressable>
-                    </Box>
-                    <Box>
-                        <Image source={Logo} alt='Image Logo Oxxo' />
-                    </Box>
-                    <Box>
-                        <Avatar source={{ uri: 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png' }} />
-                    </Box>
-                </HStack>
+            <Header />
+            <Box style={styles.container}>
                 <ScrollView>
-                    <Box style={styles.container}>
+                    <Box style={styles.containerProduto}>
                         <Produto item={{
                             id: 1,
                             name: 'Leite em pó 500g',
@@ -89,67 +95,6 @@ export default function ProdutosScreen({ navigation }) {
     )
 }
 
-const Tabs = ({ navigation }) => {
-
-    return (
-        <Box paddingTop='5' paddingBottom='5' height='10%' width='100%' display='flex' justifyContent='space-around' flexDirection='row' backgroundColor="#808080">
-            <Box Box style={styles.buttonScreen} >
-                <Icon
-                    as={Feather}
-                    name="shopping-cart"
-                    size={10}
-                    color="#fff"
-                    onPress={() => { navigation.navigate("ProdutosScreen") }}
-                />
-            </Box>
-            <Box style={styles.buttonScreen}>
-                <Icon
-                    as={Feather}
-                    name="map"
-                    size={10}
-                    color="#fff"
-                    onPress={() => { navigation.navigate("AppMapaScreen") }}
-                >
-                </Icon>
-            </Box>
-        </Box >
-    )
-}
-
-
-
-const data = [
-    {
-        id: 1,
-        name: 'Leite em pó 500g',
-        uri: 'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSxUvR_hVNAd83dnKmPN48cuqXVoqFMg5SVgvS4w7g1pMbYeRfHK9DSYaIXmZHNnF1xZS0W7Z8z20s&usqp=CAc',
-    },
-    {
-        id: 2,
-        name: 'café Pilão 400g',
-        uri: 'https://qualycestas.vteximg.com.br/arquivos/ids/157479-292-292/WhatsApp-Image-2022-07-14-at-07.27.57.jpg?v=637937623884600000',
-    },
-    {
-        id: 3,
-        name: 'Margaina 500g',
-        uri: 'https://naturaldaterra.com.br/media/catalog/product/1/2/123375---7893000383005---marg-qualy-ssal-500g.jpg?auto=webp&format=pjpg&width=640&height=800&fit=cover',
-    },
-    {
-        id: 4,
-        name: 'Pao de Forma',
-        uri: 'https://images.tcdn.com.br/img/img_prod/666230/pao_de_forma_visconti_400g_1765_1_20200514234408.jpg',
-    },
-    {
-        id: 5,
-        name: 'Leite Integral 1L',
-        uri: 'https://m.media-amazon.com/images/I/51wNnRI8zTL._AC_SX522_.jpg',
-    },
-    {
-        id: 6,
-        name: 'Biscoito 400g',
-        uri: 'https://a-static.mlcdn.com.br/800x560/biscoito-de-polvilho-salgado-globo-30g/casasantaluzia2/354/1e616f604cbeebd35b3e5f86b646a878.jpeg',
-    },
-]
 
 const Produto = ({ item }) => {
 
@@ -160,7 +105,7 @@ const Produto = ({ item }) => {
     }
 
     return (
-        <Box style={styles.containerProduto}>
+        <Box style={styles.boxProduto}>
             <Image source={{ uri: item.uri }} alt="image" size='xl' />
             <Text style={styles.titleProduto}>{item.name}</Text>
             <Box>
@@ -176,12 +121,17 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     container: {
+        flex: 1,
+        backgroundColor: "#f8f8f8",
+        flexDirection: "column",
+    },
+    containerProduto: {
         width: '100%',
         display: 'flex',
         flexDirection: 'row',
         flexWrap: 'wrap',
     },
-    containerProduto: {
+    boxProduto: {
         backgroundColor: '#fff',
         width: "45%",
         borderRadius: 5,
@@ -193,11 +143,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 10
     },
-    buttonProduto: {
-    },
-    buttonScreen: {
-
-    }
 })
 
 // onPress={() => {

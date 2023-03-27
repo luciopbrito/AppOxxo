@@ -1,8 +1,8 @@
 
-import { Box, Image, Input, NativeBaseProvider, Text } from "native-base";
+import { Box, Image, Input, NativeBaseProvider, Text, Button, HStack, VStack, Center } from "native-base";
 import { useEffect, useState } from "react";
 import { Alert, TouchableOpacity } from "react-native";
-import { StyleSheet, BackHandler } from "react-native";
+import { StyleSheet } from "react-native";
 import logoOxxo from '../../../assets/logo.png'
 
 // import { Container } from './styles';
@@ -13,7 +13,8 @@ const LoginScreen = ({ navigation, route }) => {
     const [password, setPassword] = useState(null);
 
     useEffect(() => {
-        setChoiceScreen(route.params.type);
+        // setChoiceScreen(route.params.type);
+        setChoiceScreen('cliente');
     }, [navigation]);
 
     const submit = (type) => {
@@ -46,20 +47,22 @@ const LoginScreen = ({ navigation, route }) => {
         case 'cliente':
             return (
                 <NativeBaseProvider>
-                    <Box style={styles.container}>
-                        <Box style={styles.container_logo}>
+                    <VStack justifyContent={'center'} style={styles.container}>
+                        {/* <Box style={styles.container_logo}> */}
+                        <HStack mt='10' bgColor={'#fff'}>
                             <Image source={logoOxxo} alt="Logo Oxxo" />
-                        </Box>
-                        <Box style={[styles.container_form,]}>
-                            <Box gap='5' w='100%'>
+                        </HStack>
+                        {/* </Box> */}
+                        <VStack w='80%'>
+                            <VStack space={5} w='100%'>
                                 <Box w='100%' borderRadius={5}>
                                     <Input placeholder='Digite seu E-mail' style={styles.input} onChangeText={(e) => setEmail(e)} />
                                 </Box>
                                 <Box w='100%' borderRadius={5}>
                                     <Input placeholder='Digite sua senha' style={styles.input} onChangeText={(e) => setPassword(e)} />
                                 </Box>
-                            </Box>
-                            <Box style={styles.container_forgetPassword}>
+                            </VStack>
+                            <VStack space={5} style={styles.container_forgetPassword}>
                                 <Text style={styles.forgetPassword}>
                                     Esqueceu a senha?
                                 </Text>
@@ -67,21 +70,23 @@ const LoginScreen = ({ navigation, route }) => {
                                 <Text style={styles.forgetPassword} onPress={() => goRegistrationScreen}>
                                     funcionário?
                                 </Text> */}
-                            </Box>
-                            <TouchableOpacity onPress={() => submit(choiceScreen)}>
-                                <Box style={styles.container_btnSubmit}>
-                                    <Text style={styles.btnSubmit_text} >Entrar</Text>
-                                </Box>
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <Box>
-                                    <Text style={styles.cadastro} onPress={() => goRegistrationScreen()}>
-                                        cadastre-se
-                                    </Text>
-                                </Box>
-                            </TouchableOpacity>
-                        </Box>
-                    </Box>
+                            </VStack>
+                            <Center>
+                                <TouchableOpacity onPress={() => submit(choiceScreen)}>
+                                    <Box style={styles.container_btnSubmit}>
+                                        <Text style={styles.btnSubmit_text} >Entrar</Text>
+                                    </Box>
+                                </TouchableOpacity>
+                                <TouchableOpacity>
+                                    <Box>
+                                        <Text style={styles.cadastro} onPress={() => goRegistrationScreen()}>
+                                            cadastre-se
+                                        </Text>
+                                    </Box>
+                                </TouchableOpacity>
+                            </Center>
+                        </VStack>
+                    </VStack>
                 </NativeBaseProvider >
             );
         case 'funcionario':
@@ -117,10 +122,10 @@ const styles = StyleSheet.create({
     },
     container_form: {
         width: '80%',
-        height: '70%',
+        height: '30%',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'space-between'
     },
     input: {
         backgroundColor: "#fff",
@@ -169,5 +174,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     }
 })
+
 
 export default LoginScreen;

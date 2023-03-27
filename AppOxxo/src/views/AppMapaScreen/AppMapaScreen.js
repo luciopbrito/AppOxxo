@@ -1,37 +1,47 @@
-import { Feather } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { Avatar, Box, HStack, Icon, NativeBaseProvider } from "native-base";
-import React from "react";
-import { Pressable } from "react-native";
+import { Box, Center, HStack, NativeBaseProvider, Text, VStack } from "native-base";
+import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import MapView from 'react-native-maps';
-import Logo from '../../../assets/logo.png'
+import Header from "../../components/Header";
+import Tabs from "../../components/Tabs";
 
-export default function AppMapaScreen({ navigation }) {
+export default function AppMapaScreen({ navigation, route }) {
+
+    const exampleUser = {
+        id: '1',
+        name: 'Lucio Pereira Brito',
+        genero: 1,
+        photo: 'https://pps.whatsapp.net/v/t61.24694-24/310477827_3407089916191895_330551738102350535_n.jpg?ccb=11-4&oh=01_AdSgL_HxtJHuwnCSjXfpEthxI79ExpfZNxRJ4o7IsAo2jg&oe=642ED378',
+        typeUser: 'cliente',
+    }
+
+    const getFirstName = () => {
+        var retrunName = exampleUser.name.split(' ', 1);
+        return retrunName
+    }
+
+    useEffect(() => {
+        // setUser(route.params.user);
+    }, []);
+
     return (
         <NativeBaseProvider>
-            <HStack background={'#f00'} marginTop='10' paddingTop={5} width="100%" h='auto' display={'flex'} alignItems="center" justifyContent="space-between">
-                <Box>
-                    <Pressable>
-                        <Icon
-                            as={Feather}
-                            name="menu"
-                            size={10}
-                            color="#fff"
-                        >
-                        </Icon>
-                    </Pressable>
-                </Box>
-                <Box display='flex' alignItems="center">
-                    <Image source={Logo} alt='Image Logo Oxxo' />
-                </Box>
-                <Box>
-                    <Avatar source={{ uri: 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png' }} />
-                </Box>
-            </HStack>
-            <Box style={Styles.container} safeArea>
-                <View>
-                    <MapView style={Styles.map}
+            <VStack flex='1' bgColor='#f00' mt='30' >
+                <Header user={exampleUser} />
+                <Center>
+                    <Text color='#fff' bold='bold' fontSize={"md"} >
+                        Seja bem vindo(a), {getFirstName()}
+                    </Text>
+                </Center>
+                <VStack h='container'>
+                    <HStack w='full' justifyContent={'center'}>
+                        <Box zIndex={2000} backgroundColor='#FBB110' borderTopRadius={200} w='50%' >
+                            <Center>
+                                <Text fontSize='sm' color='#fff'>Escolha sua unidade</Text>
+                            </Center>
+                        </Box>
+                    </HStack>
+                    <MapView h='80%'
                         initialRegion={{
                             latitude: -23.464363,
                             longitude: -46.523467,
@@ -40,51 +50,14 @@ export default function AppMapaScreen({ navigation }) {
                         }}
                     >
                     </MapView>
-                </View>
-            </Box>
-            <Tabs navigation={navigation}></Tabs>
+                    <HStack w='full' justifyContent={'center'}>
+                        <Box backgroundColor='#FBB110' borderBottomRadius={100} w='50%' h='5'>
+                        </Box>
+                    </HStack>
+                </VStack>
+            </VStack>
         </NativeBaseProvider >
     )
 }
 
-const Tabs = ({ navigation }) => {
 
-    return (
-        <Box paddingTop='5' paddingBottom='5' height='10%' width='100%' display='flex' justifyContent='space-around' flexDirection='row' backgroundColor="#808080">
-            <Box Box style={Styles.buttonScreen} >
-                <Icon
-                    as={Feather}
-                    name="shopping-cart"
-                    size={10}
-                    color="#fff"
-                    onPress={() => { navigation.navigate("ProdutosScreen") }}
-                />
-            </Box>
-            <Box style={Styles.buttonScreen}>
-                <Icon
-                    as={Feather}
-                    name="map"
-                    size={10}
-                    color="#fff"
-                    onPress={() => { navigation.navigate("AppMapaScreen") }}
-                >
-                </Icon>
-            </Box>
-        </Box >
-    )
-}
-
-const Styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width: '100%',
-        backgroundColor: "#f00",
-        justifyContent: 'center',
-    },
-    map: {
-        height: "100%",
-    },
-    buttonScreen: {
-
-    }
-})
