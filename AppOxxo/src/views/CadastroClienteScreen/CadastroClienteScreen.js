@@ -46,7 +46,7 @@ export default function CadastroClienteScreen({ navigation }) {
         if (verifPassword) {
             console.log("cadastro:", JSON.stringify({ nome: name, dataDeNascimento: dataNas, email: email, emailRecuperacao: recuEmail, telefone: phone, senha: password }));
             console.log("ir para tela produtos");
-            navigation.navigate("ProdutosScreen");
+            navigation.navigate("AppMapaScreen");
         }
     }
 

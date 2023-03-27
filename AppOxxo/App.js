@@ -5,6 +5,7 @@ import AnimationInitial from "./src/components/AnimationInitial/AnimationInitial
 import CadastroClienteScreen from "./src/views/CadastroClienteScreen/CadastroClienteScreen";
 import LoginScreen from "./src/views/LoginScreen/LoginScreen";
 import ProdutosScreen from "./src/views/ProdutosScreen/ProdutosScreen";
+import AppMapaScreen from './src/views/AppMapaScreen/AppMapaScreen';
 // import AppMapaScreen from "./src/views/AppMapaScreen/AppMapaScreen";
 
 const Stack = createStackNavigator()
@@ -12,7 +13,7 @@ const Stack = createStackNavigator()
 export default function App() {
     return (
         <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator initialRouteName='AppMapaScreen'>
                 <Stack.Screen
                     options={{
                         title: '',
@@ -49,7 +50,15 @@ export default function App() {
                     name="ProdutosScreen"
                     component={ProdutosScreen}
                 />
-                {/* <Stack.Screen name="AppMapaScreen" component={AppMapaScreen} /> */}
+                <Stack.Screen
+                    options={{
+                        title: '',
+                        headerTransparent: true,
+                        headerShown: false
+                    }}
+                    name="AppMapaScreen"
+                    component={AppMapaScreen}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     );

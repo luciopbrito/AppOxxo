@@ -28,7 +28,7 @@ const LoginScreen = ({ navigation, route }) => {
                     // TODO: fazer rota para home cliente
                     console.log('logado por:', JSON.stringify({ email: email, senha: password }));
                     console.log("ir para produtos por butão enviar");
-                    navigation.navigate("ProdutosScreen");
+                    navigation.navigate("AppMapaScreen");
                 case 'funcionario':
                 // TODO: fazer rota para home funcionário
                 case 'gerente':
