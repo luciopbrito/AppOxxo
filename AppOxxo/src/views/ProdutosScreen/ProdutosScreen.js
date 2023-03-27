@@ -27,7 +27,7 @@ export default function ProdutosScreen({ navigation }) {
                                 as={Feather}
                                 name="menu"
                                 size={10}
-                                color="#000"
+                                color="#fff"
                                 onPress={() => setOpenMenu(!openMenu)}
                             >
                             </Icon>
@@ -75,18 +75,47 @@ export default function ProdutosScreen({ navigation }) {
 
                     </Box>
                 </ScrollView>
+                <Tabs navigation={navigation}></Tabs>
             </Box>
-            {
+            {/* {
                 openMenu ?
                     <Box>
 
                     </Box>
                     :
                     null
-            }
+            } */}
         </NativeBaseProvider >
     )
 }
+
+const Tabs = ({ navigation }) => {
+
+    return (
+        <Box paddingTop='5' paddingBottom='5' height='10%' width='100%' display='flex' justifyContent='space-around' flexDirection='row' backgroundColor="#808080">
+            <Box Box style={styles.buttonScreen} >
+                <Icon
+                    as={Feather}
+                    name="shopping-cart"
+                    size={10}
+                    color="#fff"
+                    onPress={() => { navigation.navigate("ProdutosScreen") }}
+                />
+            </Box>
+            <Box style={styles.buttonScreen}>
+                <Icon
+                    as={Feather}
+                    name="map"
+                    size={10}
+                    color="#fff"
+                    onPress={() => { navigation.navigate("AppMapaScreen") }}
+                >
+                </Icon>
+            </Box>
+        </Box >
+    )
+}
+
 
 
 const data = [
@@ -165,6 +194,9 @@ const styles = StyleSheet.create({
         gap: 10
     },
     buttonProduto: {
+    },
+    buttonScreen: {
+
     }
 })
 

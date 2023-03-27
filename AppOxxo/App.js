@@ -6,14 +6,13 @@ import CadastroClienteScreen from "./src/views/CadastroClienteScreen/CadastroCli
 import LoginScreen from "./src/views/LoginScreen/LoginScreen";
 import ProdutosScreen from "./src/views/ProdutosScreen/ProdutosScreen";
 import AppMapaScreen from './src/views/AppMapaScreen/AppMapaScreen';
-// import AppMapaScreen from "./src/views/AppMapaScreen/AppMapaScreen";
 
 const Stack = createStackNavigator()
 
 export default function App() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName='AppMapaScreen'>
+            <Stack.Navigator initialRouteName='AnimationInitial'>
                 <Stack.Screen
                     options={{
                         title: '',
