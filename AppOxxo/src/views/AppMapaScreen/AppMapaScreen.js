@@ -24,16 +24,18 @@ export default function AppMapaScreen({ navigation, route }) {
         // setUser(route.params.user);
     }, []);
 
+
+
     return (
         <NativeBaseProvider>
             <VStack flex='1' bgColor='#f00' mt='30' >
                 <Header user={exampleUser} />
                 <Center>
-                    <Text color='#fff' bold='bold' fontSize={"md"} >
+                    <Text color='#fff' bold='bold' fontSize={"md"} mb='5' >
                         Seja bem vindo(a), {getFirstName()}
                     </Text>
                 </Center>
-                <VStack h='container'>
+                <VStack h='full'>
                     <HStack w='full' justifyContent={'center'}>
                         <Box zIndex={2000} backgroundColor='#FBB110' borderTopRadius={200} w='50%' >
                             <Center>
@@ -41,7 +43,7 @@ export default function AppMapaScreen({ navigation, route }) {
                             </Center>
                         </Box>
                     </HStack>
-                    <MapView h='80%'
+                    <MapView style={{ height: '70.5%' }}
                         initialRegion={{
                             latitude: -23.464363,
                             longitude: -46.523467,
