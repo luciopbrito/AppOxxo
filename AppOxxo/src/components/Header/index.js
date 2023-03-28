@@ -2,7 +2,7 @@ import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Avatar, HStack, Icon, Image, Pressable } from 'native-base';
 import React, { useContext, useEffect, useState } from 'react';
-import Logo from '../../../assets/logo.png'
+import Logo from '../../assets/logo.png'
 import { AuthContext } from '../../contexts/Auth';
 
 const Header = () => {
@@ -21,7 +21,7 @@ const Header = () => {
                 >
                 </Icon>
             </Pressable>
-            <Pressable onPress={() => navigation.navigate("AppMapaScreen")} >
+            <Pressable onPress={() => navigation.navigate("HomeScreen")} >
                 <Image source={Logo} alt='Image Logo Oxxo' />
             </Pressable>
             <Pressable onPress={() => navigation.navigate("AccountScreen")} >

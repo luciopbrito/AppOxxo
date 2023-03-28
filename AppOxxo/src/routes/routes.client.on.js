@@ -1,8 +1,8 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import AppMapaScreen from '../views/AppMapaScreen/AppMapaScreen'
+import HomeScreen from '../views/HomeScreen'
 import AccountScreen from '../views/AccountScreen/'
-import ProdutosScreen from '../views/ProdutosScreen/ProdutosScreen'
-import LoginScreen from '../views/LoginScreen/LoginScreen'
+import ProdutosScreen from '../views/ProdutosScreen'
+import LoginScreen from '../views/LoginScreen'
 import { React, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { DrawerCustom } from '../components/DrawerCustom';
@@ -17,7 +17,7 @@ export function RoutesClientOn({ navigation, route }) {
 
     return (
         <Navigator
-            initialRouteName='AppMapaScreen'
+            initialRouteName='HomeScreen'
         // drawerContent={props => <DrawerCustom {...props} />}
         >
             <Screen
@@ -32,8 +32,8 @@ export function RoutesClientOn({ navigation, route }) {
                         />
                     ),
                 }}
-                name="AppMapaScreen"
-                component={AppMapaScreen}
+                name="HomeScreen"
+                component={HomeScreen}
                 initialParams={route}
             />
             <Screen

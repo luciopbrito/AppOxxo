@@ -1,18 +1,17 @@
 
 import { useNavigation } from "@react-navigation/native";
-import { Box, Image, Input, NativeBaseProvider, Text, Button, HStack, VStack, Center } from "native-base";
+import { Box, Image, Input, NativeBaseProvider, Text, HStack, VStack, Center } from "native-base";
 import { useEffect, useState, useContext } from "react";
 import { TouchableOpacity } from "react-native";
 import { StyleSheet } from "react-native";
-import logoOxxo from '../../../assets/logo.png'
-import { AuthContext, useAuth } from "../../contexts/Auth";
+import logoOxxo from '../../assets/logo.png'
+import { AuthContext } from "../../contexts/Auth";
 
 const LoginScreen = ({ route }) => {
     // context
     const { signIn, setAuthData, setUser } = useContext(AuthContext)
 
     function handleLogin() {
-        console.log("antes")
         signIn(email, password, 'cliente')
     }
 
@@ -124,7 +123,7 @@ const LoginScreen = ({ route }) => {
                             </Center>
                         </VStack>
                     </VStack>
-                </NativeBaseProvider >
+                </NativeBaseProvider>
             );
         case 'funcionario':
             return (

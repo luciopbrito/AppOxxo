@@ -1,14 +1,14 @@
-import { useRoute } from "@react-navigation/native";
-import { Box, Center, HStack, NativeBaseProvider, Text, VStack } from "native-base";
+import { View, Animated, Box, Center, HStack, NativeBaseProvider, Text, VStack } from "native-base";
 import React, { useEffect, useState, useContext } from "react";
 import MapView from 'react-native-maps';
 import Header from "../../components/Header";
 import { AuthContext } from "../../contexts/Auth";
 
-export default function AppMapaScreen({ navigation }) {
+export default function HomeScreen({ navigation }) {
 
     const { user } = useContext(AuthContext)
     const [name, setName] = useState('')
+    // const [animateMap, setAnimatedMap] = useState(new AnimatedMapView.Value(0))
 
     const getFirstName = () => {
         if (user) {
@@ -17,11 +17,19 @@ export default function AppMapaScreen({ navigation }) {
         }
     }
 
+    const animation = () => {
+        Animated.timing(animateMap, {
+            toValue: '70.5%',
+            duration: 3000,
+            useNativeDriver: true,
+        }).start()
+    }
+
     useEffect(() => {
         // console.log("entrou home com o id: ", route.params?.userId)
         setName(getFirstName())
-
-    }, [user]);
+        // animation()
+    }, []);
 
     return (
         <NativeBaseProvider>
@@ -40,6 +48,7 @@ export default function AppMapaScreen({ navigation }) {
                             </Center>
                         </Box>
                     </HStack>
+                    {/* <AnimatedMapView style={{ height: animateMap }}> */}
                     <MapView style={{ height: '70.5%' }}
                         initialRegion={{
                             latitude: -23.464363,
@@ -49,8 +58,8 @@ export default function AppMapaScreen({ navigation }) {
                         }}
                         minZoomLevel={17}
                         showsUserLocation={true}
-                    >
-                    </MapView>
+                    />
+                    {/* </AnimatedMapView> */}
                     <HStack w='full' justifyContent={'center'}>
                         <Box backgroundColor='#FBB110' borderBottomRadius={100} w='50%' h='5'>
                         </Box>

@@ -1,9 +1,9 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack'
-import AnimationInitial from '../components/AnimationInitial/AnimationInitial';
-import LoginScreen from '../views/LoginScreen/LoginScreen';
+import AnimationInitial from '../components/AnimationInitial';
+import LoginScreen from '../views/LoginScreen';
 import RecoverPasswordScreen from '../views/RecoverPasswordScreen';
-import CadastroClienteScreen from '../views/CadastroClienteScreen/CadastroClienteScreen';
+import CadastroClienteScreen from '../views/CadastroClienteScreen';
 import { RoutesClientOn } from './routes.client.on';
 
 export function RoutesClientOff() {

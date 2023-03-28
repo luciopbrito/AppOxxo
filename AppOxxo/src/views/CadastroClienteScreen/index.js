@@ -1,13 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, NativeBaseProvider, ScrollView, Text } from "native-base";
+import { Box, Center, HStack, NativeBaseProvider, ScrollView, Text, VStack } from "native-base";
 import { Image, StyleSheet, Button, TouchableOpacity, Alert } from "react-native";
-import image_logo from "../../../assets/logo.png"
+import image_logo from "../../assets/logo.png"
 import FormInput from "../../components/FormInput";
 import { AuthContext } from "../../contexts/Auth";
+import { useNavigation } from "@react-navigation/native";
 
 export default function CadastroClienteScreen({ navigation }) {
-    //context
+    //contextr
     const { setAuthData } = useContext(AuthContext)
+
+    // const navigation = useNavigation();
 
     const [name, setName] = useState(null);
     const [dataNas, setDateNas] = useState(null);
@@ -50,7 +53,7 @@ export default function CadastroClienteScreen({ navigation }) {
         if (verifPassword) {
             console.log("cadastro:", JSON.stringify({ nome: name, dataDeNascimento: dataNas, email: email, emailRecuperacao: recuEmail, telefone: phone, senha: password }));
             console.log("ir para tela home");
-            setAuthData(true)
+            navigation.navigate("LoginScreen");
         }
     }
 
@@ -59,7 +62,13 @@ export default function CadastroClienteScreen({ navigation }) {
             <ScrollView style={styles.container}>
                 <Box style={[styles.image_logo]}>
                     <Image borderRadius={5} source={image_logo} />
+                    <VStack>
+                        <Center>
+                            <Text fontSize='20' color='#fff' fontWeight={'bold'}>Cadastro</Text>
+                        </Center>
+                    </VStack>
                 </Box>
+
                 <Box gap='5'>
                     <FormInput placeholder='Nome Completo' funcState={setName} />
                     <FormInput placeholder='Data de Nascimento' funcState={setDateNas} />
@@ -97,8 +106,9 @@ const styles = StyleSheet.create({
     },
     image_logo: {
         marginTop: 40,
-        marginBottom: 100,
+        marginBottom: 40,
         alignItems: 'center',
+        gap: 30
     },
     box_button: {
         marginTop: 20,

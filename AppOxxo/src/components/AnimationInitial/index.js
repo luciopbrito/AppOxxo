@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Animated, StyleSheet, Image } from "react-native";
 import { useNavigation } from '@react-navigation/native'
-import icon from '../../../assets/logo.png'
+import icon from '../../assets/logo.png'
 import { Box, NativeBaseProvider } from "native-base";
 
 const AnimationInitial = () => {

@@ -20,7 +20,7 @@ const Tabs = ({ navigation }) => {
                     name="map"
                     size={10}
                     color="#fff"
-                    onPress={() => { navigation.navigate("AppMapaScreen") }}
+                    onPress={() => { navigation.navigate("HomeScreen") }}
                 >
                 </Icon>
             </Box>

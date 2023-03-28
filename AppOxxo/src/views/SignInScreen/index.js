@@ -2,7 +2,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import LoginScreen from "../LoginScreen/LoginScreen";
 import AccountScreen from "../AccountScreen";
 import ProdutosScreen from "../ProdutosScreen/ProdutosScreen";
-import AppMapaScreen from '../AppMapaScreen/AppMapaScreen';
+import HomeScreen from '../HomeScreen/HomeScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -10,7 +10,7 @@ export default function SingInScreen({ route }) {
 
     return (
         <Drawer.Navigator
-            initialRouteName='AppMapaScreen'
+            initialRouteName='HomeScreen'
         >
             <Drawer.Screen
                 options={{
@@ -19,8 +19,8 @@ export default function SingInScreen({ route }) {
                     headerShown: false,
                     drawerLabel: 'Início',
                 }}
-                name="AppMapaScreen"
-                component={AppMapaScreen}
+                name="HomeScreen"
+                component={HomeScreen}
                 initialParams={route}
             />
             <Drawer.Screen
