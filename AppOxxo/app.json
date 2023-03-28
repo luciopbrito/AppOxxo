@@ -1,30 +1,4 @@
 {
-  "expo": {
     "name": "AppOxxo",
-    "slug": "AppOxxo",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/logoApp.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "",
-      "resizeMode": "contain",
-      "backgroundColor": "#ff0000"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
-  }
+    "displayName": "Oxxo"
 }

@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box, NativeBaseProvider, ScrollView, Text } from "native-base";
 import { Image, StyleSheet, Button, TouchableOpacity, Alert } from "react-native";
 import image_logo from "../../../assets/logo.png"
 import FormInput from "../../components/FormInput";
+import { AuthContext } from "../../contexts/Auth";
 
 export default function CadastroClienteScreen({ navigation }) {
+    //context
+    const { setAuthData } = useContext(AuthContext)
+
     const [name, setName] = useState(null);
     const [dataNas, setDateNas] = useState(null);
     const [email, setEmail] = useState(null);
@@ -45,8 +49,8 @@ export default function CadastroClienteScreen({ navigation }) {
 
         if (verifPassword) {
             console.log("cadastro:", JSON.stringify({ nome: name, dataDeNascimento: dataNas, email: email, emailRecuperacao: recuEmail, telefone: phone, senha: password }));
-            console.log("ir para tela produtos");
-            navigation.navigate("AppMapaScreen");
+            console.log("ir para tela home");
+            setAuthData(true)
         }
     }
 
