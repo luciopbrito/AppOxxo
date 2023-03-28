@@ -1,38 +1,35 @@
+import { useRoute } from "@react-navigation/native";
 import { Box, Center, HStack, NativeBaseProvider, Text, VStack } from "native-base";
-import React, { useEffect, useState } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import React, { useEffect, useState, useContext } from "react";
 import MapView from 'react-native-maps';
 import Header from "../../components/Header";
-import Tabs from "../../components/Tabs";
+import { AuthContext } from "../../contexts/Auth";
 
-export default function AppMapaScreen({ navigation, route }) {
+export default function AppMapaScreen({ navigation }) {
 
-    const exampleUser = {
-        id: '1',
-        name: 'Lucio Pereira Brito',
-        genero: 1,
-        photo: 'https://pps.whatsapp.net/v/t61.24694-24/310477827_3407089916191895_330551738102350535_n.jpg?ccb=11-4&oh=01_AdSgL_HxtJHuwnCSjXfpEthxI79ExpfZNxRJ4o7IsAo2jg&oe=642ED378',
-        typeUser: 'cliente',
-    }
+    const { user } = useContext(AuthContext)
+    const [name, setName] = useState('')
 
     const getFirstName = () => {
-        var retrunName = exampleUser.name.split(' ', 1);
-        return retrunName
+        if (user) {
+            console.log("USER getfirstname", user)
+            return user.name.toString().split(' ', 1)
+        }
     }
 
     useEffect(() => {
-        // setUser(route.params.user);
-    }, []);
+        // console.log("entrou home com o id: ", route.params?.userId)
+        setName(getFirstName())
 
-
+    }, [user]);
 
     return (
         <NativeBaseProvider>
             <VStack flex='1' bgColor='#f00' mt='30' >
-                <Header user={exampleUser} />
+                <Header />
                 <Center>
                     <Text color='#fff' bold='bold' fontSize={"md"} mb='5' >
-                        Seja bem vindo(a), {getFirstName()}
+                        {user.genero == 1 ? `Seja bem vindo, ${name}` : `Seja bem vinda, ${name}`}
                     </Text>
                 </Center>
                 <VStack h='full'>
@@ -50,6 +47,8 @@ export default function AppMapaScreen({ navigation, route }) {
                             latitudeDelta: 0.00922,
                             longitudeDelta: 0.00421,
                         }}
+                        minZoomLevel={17}
+                        showsUserLocation={true}
                     >
                     </MapView>
                     <HStack w='full' justifyContent={'center'}>
@@ -58,7 +57,7 @@ export default function AppMapaScreen({ navigation, route }) {
                     </HStack>
                 </VStack>
             </VStack>
-        </NativeBaseProvider >
+        </NativeBaseProvider>
     )
 }
 
