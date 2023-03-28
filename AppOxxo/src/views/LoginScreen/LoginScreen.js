@@ -1,42 +1,78 @@
 
+import { useNavigation } from "@react-navigation/native";
 import { Box, Image, Input, NativeBaseProvider, Text, Button, HStack, VStack, Center } from "native-base";
-import { useEffect, useState } from "react";
-import { Alert, TouchableOpacity } from "react-native";
+import { useEffect, useState, useContext } from "react";
+import { TouchableOpacity } from "react-native";
 import { StyleSheet } from "react-native";
 import logoOxxo from '../../../assets/logo.png'
+import { AuthContext, useAuth } from "../../contexts/Auth";
 
-// import { Container } from './styles';
+const LoginScreen = ({ route }) => {
+    // context
+    const { signIn, setAuthData, setUser } = useContext(AuthContext)
 
-const LoginScreen = ({ navigation, route }) => {
+    function handleLogin() {
+        console.log("antes")
+        signIn(email, password, 'cliente')
+    }
+
+    useEffect(() => {
+        setAuthData(false)
+        setUser(null)
+    }, []);
+
     const [choiceScreen, setChoiceScreen] = useState(null);
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
+    const navigation = useNavigation()
 
     useEffect(() => {
-        // setChoiceScreen(route.params.type);
+        // setChoiceScreen(route.params?.type);
         setChoiceScreen('cliente');
-    }, [navigation]);
+    }, []);
 
-    const submit = (type) => {
-        console.log("submetido");
+    // function submit(type) {
+    //     console.log("submetido");
 
-        if (email == null || password == null) {
-            Alert.alert('Usuário Inválido', 'É necessário digitar o email e senha');
-        }
-        else {
-            switch (type) {
-                case 'cliente':
-                    // TODO: fazer rota para home cliente
-                    console.log('logado por:', JSON.stringify({ email: email, senha: password }));
-                    console.log("ir para produtos por butão enviar");
-                    navigation.navigate("AppMapaScreen");
-                case 'funcionario':
-                // TODO: fazer rota para home funcionário
-                case 'gerente':
-                // TODO: fazer rota para home gerente
-            }
-        }
-    }
+    //     if (email == null || password == null) {
+    //         Alert.alert('Usuário Inválido', 'É necessário digitar o email e senha');
+    //     }
+    //     else {
+    //         switch (type) {
+    //             case 'cliente':
+
+    //                 var findUser = {};
+    //                 Users.forEach((user, index) => {
+    //                     if (user.email == email && user.password == password) {
+    //                         findUser = Users[index];
+    //                     }
+    //                     else if (user.email == email && user.password != password) {
+    //                         if ((tryLogin + 1) == 3) {
+    //                             askRecoverPassword()
+    //                             setTryLogin(0)
+    //                         }
+    //                         else {
+    //                             Alert.alert('Senha inválida', 'Tente novamente');
+    //                             setTryLogin(tryLogin + 1);
+    //                         }
+    //                     }
+    //                 })
+
+    //                 if (findUser) {
+    //                     console.log('logado por:', JSON.stringify({ email: email, senha: password }));
+    //                     console.log("ir para home por botão enviar");
+    //                     // navigation.navigate("RoutesClientOn", { userId: findUser.id });
+    //                     // route.params.auth(true)
+    //                 }
+
+
+    //             case 'funcionario':
+    //             // TODO: fazer rota para home funcionário
+    //             case 'gerente':
+    //             // TODO: fazer rota para home gerente
+    //         }
+    //     }
+    // }
 
     const goRegistrationScreen = () => {
         console.log("ir para página cadastro por cadastro-se")
@@ -56,14 +92,14 @@ const LoginScreen = ({ navigation, route }) => {
                         <VStack w='80%'>
                             <VStack space={5} w='100%'>
                                 <Box w='100%' borderRadius={5}>
-                                    <Input placeholder='Digite seu E-mail' style={styles.input} onChangeText={(e) => setEmail(e)} />
+                                    <Input placeholder='Digite seu E-mail' style={styles.input} value={email} onChangeText={(e) => setEmail(e)} />
                                 </Box>
                                 <Box w='100%' borderRadius={5}>
-                                    <Input placeholder='Digite sua senha' style={styles.input} onChangeText={(e) => setPassword(e)} />
+                                    <Input placeholder='Digite sua senha' style={styles.input} value={password} onChangeText={(e) => setPassword(e)} />
                                 </Box>
                             </VStack>
                             <VStack space={5} style={styles.container_forgetPassword}>
-                                <Text style={styles.forgetPassword}>
+                                <Text style={styles.forgetPassword} onPress={() => navigation.navigate("RecoverPasswordScreen")}>
                                     Esqueceu a senha?
                                 </Text>
                                 {/* TODO: fazer login com funcionários
@@ -72,7 +108,8 @@ const LoginScreen = ({ navigation, route }) => {
                                 </Text> */}
                             </VStack>
                             <Center>
-                                <TouchableOpacity onPress={() => submit(choiceScreen)}>
+                                {/* <TouchableOpacity onPress={() => submit(choiceScreen)}> */}
+                                <TouchableOpacity onPress={() => handleLogin()}>
                                     <Box style={styles.container_btnSubmit}>
                                         <Text style={styles.btnSubmit_text} >Entrar</Text>
                                     </Box>
