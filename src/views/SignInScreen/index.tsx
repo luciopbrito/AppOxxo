@@ -1,16 +1,16 @@
+import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { LoginScreen } from "../LoginScreen";
+import LoginScreen from "../LoginScreen";
 import AccountScreen from "../AccountScreen";
 import ProdutosScreen from "../ProdutosScreen";
 import HomeScreen from '../HomeScreen';
-import { FunctionComponent } from 'react';
 import { ParamListBase, RouteProp } from '@react-navigation/native';
 
 interface Props {
 	route: RouteProp<ParamListBase>;
 }
 
-const SingInScreen: FunctionComponent<Props> = ({ route }) => {
+const SingInScreen: React.FC<Props> = ({ route }) => {
 
 	const Drawer = createDrawerNavigator();
 	return (

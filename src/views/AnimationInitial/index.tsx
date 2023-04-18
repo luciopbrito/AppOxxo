@@ -1,10 +1,11 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Animated, StyleSheet, Image } from "react-native";
 import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native'
 import icon from '../../assets/logo.png'
 import { Box, NativeBaseProvider } from "native-base";
+import api from "../../services/api";
 
-const AnimationInitial: FunctionComponent = () => {
+const AnimationInitial: React.FC = () => {
 	const [animate, setAnimate] = useState(new Animated.Value(0))
 	const navigation = useNavigation<NavigationProp<ParamListBase>>();
 
@@ -18,7 +19,8 @@ const AnimationInitial: FunctionComponent = () => {
 			toValue: 1,
 			duration: 3000,
 			useNativeDriver: true,
-		}).start(() => { navigation.navigate('LoginScreen', { type: 'cliente' }); console.log("redirecinado para login tipo cliente") });
+			// }).start(() => { navigation.navigate('LoginScreen', { type: 'cliente' }); console.log("redirecinado para login tipo cliente") });
+		}).start(() => { navigation.navigate('ChooseUserScreen'); console.log("redirecinado para escolher tipo de usuário") });
 	}
 
 	return (

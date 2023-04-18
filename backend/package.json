@@ -1,0 +1,13 @@
+{
+	"name": "backend",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"startL": "json-server --watch db.json --host 192.168.15.14 --port 8000 --id Id_Status Id_Filial Id_Manager Id_Employee Id_Client Id_CreditCard Id_Product Id_Category Id_Coupon Id_Stock Id_OrdersCounter Id_AutonomousOrders Id_OrdersList Id_Situation Id_History Id_FormPayment Id_OrderService Id_SatisfactionSurvey",
+		"startJ": "json-server --watch db.json --host 192.168.0.46 --port 8000--id Id_Status Id_Filial Id_Manager Id_Employee Id_Client Id_CreditCard Id_Product Id_Category Id_Coupon Id_Stock Id_OrdersCounter Id_AutonomousOrders Id_OrdersList Id_Situation Id_History Id_FormPayment Id_OrderService Id_SatisfactionSurvey",
+		"startK": "json-server --watch db.json --host 192.168.15.145 --port 8000 --id Id_Status Id_Filial Id_Manager Id_Employee Id_Client Id_CreditCard Id_Product Id_Category Id_Coupon Id_Stock Id_OrdersCounter Id_AutonomousOrders Id_OrdersList Id_Situation Id_History Id_FormPayment Id_OrderService Id_SatisfactionSurvey"
+	},
+	"author": "",
+	"license": "ISC"
+}

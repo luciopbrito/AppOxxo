@@ -1,35 +1,50 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Box, Text, NativeBaseProvider, Image } from "native-base"
-import { Alert, Button, StyleSheet } from "react-native"
+import { Alert, Button } from "react-native"
 import { ScrollView } from "react-native-gesture-handler"
-import Tabs from "../../components/Tabs"
 import Header from "../../components/Header"
-import { AuthContext, AuthContextType } from "../../contexts/Auth"
-import { NavigationProp, ParamListBase, RouteProp } from "@react-navigation/native"
-import Products, { Product } from "../../datas/products"
+import { RouteProp, useNavigation } from "@react-navigation/native"
+import useAuth from "../../contexts/Auth"
+import { DrawerNavigationProp } from "@react-navigation/drawer"
+import { RoutesClientList } from "../../routes/routes.client"
+import styles from "./styles"
+import { ProductService, Product } from "../../services/products"
 
-interface Props {
-	navigation: NavigationProp<ParamListBase>;
-	route: RouteProp<ParamListBase>;
+export type ProdutosScreenParams = {
+
 }
 
-const ProdutosScreen: FunctionComponent<Props> = ({ navigation, route }) => {
+type ProdutosScreenNavigationProp = DrawerNavigationProp<RoutesClientList, 'ProdutosScreen'>
+
+type ProdutosScreenRouteProp = RouteProp<RoutesClientList, 'ProdutosScreen'>
+
+const ProdutosScreen: React.FC<ProdutosScreenParams> = () => {
 	// contexto
-	const { user } = useContext<AuthContextType>(AuthContext as any)
+	const { user } = useAuth()
+	const [Products, setProducts] = useState<Product[] | null>(null)
+	const navigation = useNavigation<ProdutosScreenNavigationProp>()
+
+	const getProducts = async () => {
+		var products = await ProductService.getAllProducts()
+		products ? setProducts(products) : null
+	}
+
+	useEffect(() => {
+		getProducts()
+	}, []);
 
 	return (
 		<NativeBaseProvider>
 			<Box flex='1' safeArea>
-				<Header />
+				<Header navigation={navigation} type={"full"} />
 				<Box style={styles.container}>
 					<ScrollView>
 						<Box style={styles.containerProduto}>
-							{Products.map((item) => {
-								return <Produto item={item} key={item.id} />
+							{Products?.map((item) => {
+								return <Produto item={item} key={item.Id_Product} />
 							})}
 						</Box>
 					</ScrollView>
-					{/* <Tabs navigation={navigation}></Tabs> */}
 				</Box>
 			</Box>
 		</NativeBaseProvider>
@@ -40,60 +55,22 @@ interface ProdutoProps {
 	item: Product
 }
 
-const Produto: FunctionComponent<ProdutoProps> = ({ item }) => {
+const Produto: React.FC<ProdutoProps> = ({ item }) => {
 
-	const modalProduto = (id: any) => {
-		var produto: Product | undefined = Products.find((e) => e.id == id);
-		if (produto) {
-			Alert.alert(produto.name, `${produto.preco.replace('.', ',')} Reais`)
-		}
+	const modalProduto = async (item: Product) => {
+		var produto = item;
+		Alert.alert(produto.Name_Product, `${produto.Price.toString().replace('.', ',')} Reais`)
 	}
 
 	return (
 		<Box style={styles.boxProduto}>
-			<Image source={{ uri: item.uri }} alt="image" size='xl' />
-			<Text style={styles.titleProduto}>{item.name}</Text>
+			<Image source={{ uri: item.Uri }} alt="image" size='xl' />
+			<Text style={styles.titleProduto}>{item.Name_Product}</Text>
 			<Box>
-				<Button color='#FBB110' title='Comprar' onPress={() => { modalProduto(item.id) }} />
+				<Button color='#FBB110' title='Comprar' onPress={() => { modalProduto(item) }} />
 			</Box>
 		</Box>
 	)
 }
 
-const styles = StyleSheet.create({
-	titleProduto: {
-		fontSize: 15,
-		fontWeight: 'bold',
-	},
-	container: {
-		flex: 1,
-		backgroundColor: "#f8f8f8",
-		flexDirection: "column",
-		width: '100%'
-	},
-	containerProduto: {
-		width: '100%',
-		display: 'flex',
-		flexDirection: 'row',
-		flexWrap: 'wrap',
-	},
-	boxProduto: {
-		backgroundColor: '#fff',
-		width: "45%",
-		borderRadius: 5,
-		padding: 15,
-		margin: 10,
-		borderWidth: 1,
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-		gap: 10
-	},
-})
-
 export default ProdutosScreen;
-
-// onPress={() => {
-//     var hasOption = item.optionsScreen !== null ? item.optionsScreen : null
-//     if (hasOption == null) { navigation.navigate(item.component); console.log("aqui componente sem option") } else { navigation.navigate(item.component, { type: item.optionsScreen }); console.log("aqui componente com option") }
-// }}>{item.title}
