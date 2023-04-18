@@ -1,18 +1,20 @@
 import { Box, Input } from 'native-base';
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 
-interface Props {
+type Props = {
 	placeholder: string;
-	funcState: (value: any) => void;
+	funcState: (key: string, value: any) => void;
+	field: string;
 }
 
-const FormInput: FunctionComponent<Props> = ({ placeholder, funcState }) => {
+const FormInput: React.FC<Props> = ({ placeholder, funcState, field }) => {
+
 	return (
 		<Input
 			placeholder={placeholder}
 			backgroundColor='#fff'
 			fontSize={15}
-			onChangeText={(e) => funcState(e)}
+			onChangeText={(e) => funcState(field, e)}
 		/>
 	)
 }

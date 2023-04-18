@@ -1,13 +1,13 @@
-import React, { FunctionComponent, useContext } from 'react';
-import { AuthContext, AuthContextType } from '../contexts/Auth';
-import RoutesClientOff from './routes.client.off';
-import RoutesClientOn from './routes.client.on';
+import React, { useContext } from 'react';
+import RoutesNotAuth from './routes.not.auth';
+import RoutesAuth from './routes.auth';
+import useAuth from '../contexts/Auth';
 
-const Routes: FunctionComponent = () => {
-	const { authData } = useContext<AuthContextType>(AuthContext as any)
+const Routes: React.FC = () => {
+	const { authData, userType } = useAuth()
 
 	return (
-		authData ? <RoutesClientOn /> : <RoutesClientOff />
+		authData ? <RoutesAuth type={userType} /> : <RoutesNotAuth />
 	)
 }
 

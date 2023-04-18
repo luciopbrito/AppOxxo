@@ -1,11 +1,16 @@
-import React, { FunctionComponent, useState } from 'react';
-import { Box, Button, Center, HStack, Image, Input, NativeBaseProvider, ScrollView, Text, VStack } from 'native-base';
+import React, { useState } from 'react';
+import { Box, Button, Center, HStack, Image, Input, NativeBaseProvider, Text, VStack } from 'native-base';
 import { TouchableOpacity } from 'react-native';
 import { NavigationProp, ParamListBase, useNavigation } from "@react-navigation/native";
 import { StyleSheet } from 'react-native';
 import logoOxxo from '../../assets/logo.png'
+import { UserSystem } from '../../contexts/Auth';
 
-const RecoverPasswordScreen: FunctionComponent = () => {
+export interface RecoverPasswordScreenProps {
+	type: UserSystem;
+}
+
+const RecoverPasswordScreen: React.FC<RecoverPasswordScreenProps> = ({ type }) => {
 
 	const [password, setPassword] = useState(null);
 	const [confirmPassword, setConfirmPassword] = useState(null);
@@ -14,7 +19,6 @@ const RecoverPasswordScreen: FunctionComponent = () => {
 	return (
 		<NativeBaseProvider>
 			<VStack justifyContent={'center'} style={styles.container}>
-				{/* <Box style={styles.container_logo}> */}
 				<HStack bgColor={'#fff'}>
 					<Image source={logoOxxo} alt="Logo Oxxo" />
 				</HStack>
@@ -23,7 +27,6 @@ const RecoverPasswordScreen: FunctionComponent = () => {
 						<Text fontSize='20' color='#fff' fontWeight={'bold'}>Troca de Senha</Text>
 					</Center>
 				</HStack>
-				{/* </Box> */}
 				<VStack w='80%'>
 					<VStack space={5} w='100%' mb='50'>
 						<Box w='100%' borderRadius={5}>
@@ -34,7 +37,6 @@ const RecoverPasswordScreen: FunctionComponent = () => {
 						</Box>
 					</VStack>
 					<Center>
-						{/* <TouchableOpacity onPress={() => submit(choiceScreen)}> */}
 						<TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
 							<Box style={styles.container_btnSubmit}>
 								<Text style={styles.btnSubmit_text} >Enviar</Text>

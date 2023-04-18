@@ -1,4 +1,4 @@
-import React, { FunctionComponent, PropsWithChildren, PropsWithRef } from 'react';
+import React, { PropsWithChildren, PropsWithRef } from 'react';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { View } from 'native-base';
 
@@ -6,7 +6,7 @@ interface Props {
 	props: any;
 }
 
-const DrawerCustom: FunctionComponent<Props> = ({ props }) => {
+const DrawerCustom: React.FC<Props> = ({ props }) => {
 	return (
 		<View>
 			<DrawerContentScrollView {...props} >
