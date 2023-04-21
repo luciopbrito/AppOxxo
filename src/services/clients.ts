@@ -1,5 +1,6 @@
 import { Guid } from "guid-typescript";
 import api from "./api";
+import { usePopup } from "./popups";
 
 const baseUrl = "/clients";
 
@@ -23,6 +24,7 @@ const getAllClients = async (): Promise<Client[] | null> => {
 	}
 	catch (error) {
 		console.log(error);
+		usePopup.warning("Error", error as string)
 		return null;
 	}
 }
@@ -34,6 +36,7 @@ const getClientByEmailAndPassword = async (email: string | null, password: strin
 	}
 	catch (error) {
 		console.error(error)
+		usePopup.warning("Error", error as string)
 		return null
 	}
 }
@@ -45,6 +48,7 @@ const createClient = async (client: Client): Promise<number | null> => {
 	}
 	catch (error) {
 		console.error(error)
+		usePopup.warning("Error", error as string)
 		return null
 	}
 }

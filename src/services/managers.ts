@@ -1,4 +1,5 @@
 import api from "./api";
+import { usePopup } from "./popups";
 
 const baseUrl = "/managers";
 
@@ -23,6 +24,7 @@ const getAllManagers = (): Manager[] | null => {
 			response = apiResponse.data ? apiResponse.data as Manager[] : null
 		})
 		.catch((error) => {
+			usePopup.warning("Error", error as string)
 			console.log(error)
 		});
 
@@ -37,6 +39,7 @@ const getManagerByEmailAndPassword = (email: string | null, password: string | n
 			response = apiResponse.data ? apiResponse.data as Manager : null
 		})
 		.catch((error) => {
+			usePopup.warning("Error", error as string)
 			console.log(error)
 		});
 

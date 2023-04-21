@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import RoutesNotAuth from './routes.not.auth';
 import RoutesAuth from './routes.auth';
 import useAuth from '../contexts/Auth';

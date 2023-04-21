@@ -1,5 +1,5 @@
-import { Alert } from "native-base";
 import api from "./api";
+import { usePopup } from "./popups";
 
 const baseUrl = "/products";
 
@@ -18,6 +18,7 @@ const getAllProducts = async (): Promise<Product[] | null> => {
 	}
 	catch (error) {
 		console.log(error)
+		usePopup.warning("Error", error as string)
 		return null;
 	};
 }
@@ -29,6 +30,7 @@ const getProductById = async (id: number): Promise<Product | null> => {
 	}
 	catch (error) {
 		console.log(error)
+		usePopup.warning("Error", error as string)
 		return null;
 	};
 }

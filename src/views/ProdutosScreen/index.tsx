@@ -9,6 +9,7 @@ import { DrawerNavigationProp } from "@react-navigation/drawer"
 import { RoutesClientList } from "../../routes/routes.client"
 import styles from "./styles"
 import { ProductService, Product } from "../../services/products"
+import { usePopup } from "../../services/popups"
 
 export type ProdutosScreenParams = {
 
@@ -59,7 +60,7 @@ const Produto: React.FC<ProdutoProps> = ({ item }) => {
 
 	const modalProduto = async (item: Product) => {
 		var produto = item;
-		Alert.alert(produto.Name_Product, `${produto.Price.toString().replace('.', ',')} Reais`)
+		usePopup.warning(produto.Name_Product, `${produto.Price.toString().replace('.', ',')} Reais`)
 	}
 
 	return (

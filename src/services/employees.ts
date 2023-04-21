@@ -1,4 +1,5 @@
 import api from "./api"
+import { usePopup } from "./popups";
 
 const baseUrl = "/employees";
 
@@ -23,6 +24,7 @@ const getAllEmployees = (): Employee[] | null => {
 			response = apiResponse.data ? apiResponse.data as Employee[] : null;
 		})
 		.catch((error) => {
+			usePopup.warning("Error", error as string)
 			console.log(error);
 		});
 
@@ -37,6 +39,7 @@ const getEmployeeByEmailAndPassword = (email: string | null, password: string | 
 			response = apiResponse.data ? apiResponse.data as Employee : null
 		})
 		.catch((error) => {
+			usePopup.warning("Error", error as string)
 			console.log(error)
 		});
 

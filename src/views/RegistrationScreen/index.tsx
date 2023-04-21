@@ -10,6 +10,7 @@ import { styles } from "./styles";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Client, ClientService } from "../../services/clients";
 import { Guid } from "guid-typescript";
+import { usePopup } from "../../services/popups";
 
 export type RegistrationScreenParams = {
 	route?: ResgistrationScreenRouteProps,
@@ -66,7 +67,7 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = ({ route }) => {
 			await verifyPassword()
 		}
 		else {
-			Alert.alert('Cadastro Inválido', 'Preencha todas os campos')
+			usePopup.warning('Cadastro Inválido', 'Preencha todas os campos')
 		}
 	}
 
@@ -77,7 +78,7 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = ({ route }) => {
 			verifPassword = true;
 		}
 		else {
-			return Alert.alert('Senha Inválida', 'senhas não correspondentes')
+			return usePopup.messageOptions('Senha Inválida', 'senhas não correspondentes')
 		}
 
 		console.log('não passou')

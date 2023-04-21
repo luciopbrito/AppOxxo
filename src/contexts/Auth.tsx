@@ -1,10 +1,10 @@
 import React, { createContext, useEffect, useState, useContext } from 'react';
 import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native';
-import { Alert } from 'react-native';
 import { Client, ClientService } from '../services/clients';
 import { Employee, EmployeeService } from '../services/employees';
 import { Manager, ManagerService } from '../services/managers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { usePopup } from '../services/popups';
 
 interface AuthContextData {
 	authData: boolean;
@@ -41,7 +41,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		loadFromStorage();
 
 		if (askCreateAccount) {
-			Alert.alert('Faça um cadastro', 'Deseja iniciar um cadastro?', [
+			usePopup.messageOptions('Faça um cadastro', 'Deseja iniciar um cadastro?', [
 				{
 					text: 'Não',
 					onPress: () => null,
@@ -62,7 +62,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 	}, [askCreateAccount, firstTry]);
 
 	function askRecoverPassword() {
-		Alert.alert('Excesso de Tentativas', 'Deseja recuparar senha?', [
+		usePopup.messageOptions('Excesso de Tentativas', 'Deseja recuparar senha?', [
 			{
 				text: 'Não',
 				onPress: () => null,
@@ -78,37 +78,50 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 	async function loadFromStorage() {
 		const user = await AsyncStorage.getItem("@AuthData");
 		const userType = await AsyncStorage.getItem("@TypeUserData");
+		console.log("return user: ", user)
+		console.log("return userType: ", userType)
 		if (userType) {
+			console.log("está autenticado type")
 			setAuthData(true);
 			setUserType(+userType as UserSystem);
 		}
 		if (user) {
+			console.log("está autenticado client")
+			setAuthData(true);
 			setUser(JSON.parse(user) as Client | Employee | Manager)
 		}
 	}
 
 	async function signIn(email: string | undefined, password: string | undefined, type: UserSystem) {
 		if (email == null || password == null) {
-			Alert.alert('Usuário Inválido', 'É necessário digitar o email e senha');
+			usePopup.warning('Usuário Inválido', 'É necessário digitar o email e senha');
 			setFirstTry(firstTry + 1)
 		}
 		else {
 			switch (type) {
 				case UserSystem.Client:
 					var client = await ClientService.getClientByEmailAndPassword(email, password);
-					console.log(client)
 					if (client != null) {
 						setUser(client);
 						setAuthData(true);
-						setUserType(UserSystem.Client);
-						AsyncStorage.setItem("@AuthData", JSON.stringify(client))
+						setUserType(type);
+						try {
+							await AsyncStorage.setItem("@AuthData", JSON.stringify(client))
+						}
+						catch (error: any) {
+							console.log("Erro AsyncStorage @AuthData: ", error.message)
+						}
 
 						console.log("AuthData: ", await AsyncStorage.getItem("@AuthData"))
 
-						if (userType) {
-							AsyncStorage.setItem("@TypeUserData", userType.toString())
-							console.log("TypeUserData: ", await AsyncStorage.getItem("@TypeUserData"))
+						try {
+							await AsyncStorage.setItem("@TypeUserData", JSON.stringify(type))
 						}
+						catch (error: any) {
+							console.log("Erro AsyncStorage @TypeUserData: ", error.message)
+						}
+						console.log("TypeUserData: ", await AsyncStorage.getItem("@TypeUserData"))
+
 						console.log('logado por:', JSON.stringify({ email: client.Email, senha: client.Password }));
 						console.log("ir para home por botão enviar");
 					}
@@ -118,7 +131,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 							setTryLogin(0)
 						}
 						else {
-							Alert.alert('Email ou Senha inválida', 'Tente novamente');
+							usePopup.warning('Email ou Senha inválida', 'Tente novamente');
 							setTryLogin(tryLogin + 1);
 						}
 					}
@@ -138,7 +151,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 							setTryLogin(0)
 						}
 						else {
-							Alert.alert('Email ou Senha inválida', 'Tente novamente');
+							usePopup.warning('Email ou Senha inválida', 'Tente novamente');
 							setTryLogin(tryLogin + 1);
 						}
 					}
@@ -158,7 +171,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 							setTryLogin(0)
 						}
 						else {
-							Alert.alert('Email ou Senha inválida', 'Tente novamente');
+							usePopup.warning('Email ou Senha inválida', 'Tente novamente');
 							setTryLogin(tryLogin + 1);
 						}
 					}
