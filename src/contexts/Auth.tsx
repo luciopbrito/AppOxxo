@@ -112,15 +112,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 							console.log("Erro AsyncStorage @AuthData: ", error.message)
 						}
 
-						console.log("AuthData: ", await AsyncStorage.getItem("@AuthData"))
-
 						try {
 							await AsyncStorage.setItem("@TypeUserData", JSON.stringify(type))
 						}
 						catch (error: any) {
 							console.log("Erro AsyncStorage @TypeUserData: ", error.message)
 						}
-						console.log("TypeUserData: ", await AsyncStorage.getItem("@TypeUserData"))
 
 						console.log('logado por:', JSON.stringify({ email: client.Email, senha: client.Password }));
 						console.log("ir para home por botão enviar");
@@ -157,11 +154,26 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 					}
 					break;
 				case UserSystem.Manager:
-					var manager = ManagerService.getManagerByEmailAndPassword(email, password);
+					var manager = await ManagerService.getManagerByEmailAndPassword(email, password);
 					if (manager != null) {
 						setUser(manager);
 						setAuthData(true);
-						setUserType(UserSystem.Client);
+						setUserType(type);
+
+						try {
+							await AsyncStorage.setItem("@AuthData", JSON.stringify(manager))
+						}
+						catch (error: any) {
+							console.log("Erro AsyncStorage @AuthData: ", error.message)
+						}
+
+						try {
+							await AsyncStorage.setItem("@TypeUserData", JSON.stringify(type))
+						}
+						catch (error: any) {
+							console.log("Erro AsyncStorage @TypeUserData: ", error.message)
+						}
+
 						console.log('logado por:', JSON.stringify({ email: manager.Email, senha: manager.Password }));
 						console.log("ir para home por botão enviar");
 					}
