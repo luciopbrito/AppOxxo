@@ -32,7 +32,7 @@ const getAllClients = async (): Promise<Client[] | null> => {
 const getClientByEmailAndPassword = async (email: string | null, password: string | null): Promise<Client | null> => {
 	try {
 		const { data } = await api.get(`${baseUrl}?Email=${email}&Password=${password}`);
-		return data ? data[0] : null;
+		return data.length == 1 ? data[0] : null;
 	}
 	catch (error) {
 		console.error(error)

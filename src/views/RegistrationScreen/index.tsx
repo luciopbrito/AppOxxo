@@ -26,6 +26,12 @@ export type RegistrationScreenParams = {
 type ResgistrationScreenRouteProps = RouteProp<RoutesNotAuthList, 'RegistrationScreen'>
 type RegistrationScreenNavigationProps = StackNavigationProp<RoutesNotAuthList, 'RegistrationScreen'>
 
+type Address = {
+	Address_Complete: string,
+	latitude: number,
+	longitude: number,
+}
+
 type FormClient = {
 	// Id_Client: number,
 	Name: string | null,
@@ -81,8 +87,6 @@ type FormEmployee = {
 const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 	//context
 	const { setAuthData, userType } = useAuth();
-
-	Geocoder.init(env.REACT_APP_API_KEY_MAP);
 
 	const navigation = useNavigation<RegistrationScreenNavigationProps>();
 
@@ -198,6 +202,17 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 		})
 	}
 
+	const returnAddressFromApi = async (Address: string): Promise<Address> => {
+		Geocoder.init(env.REACT_APP_API_KEY_MAP)
+		const { results } = await Geocoder.from(Address)
+		var address: Address = {
+			Address_Complete: results[0].formatted_address,
+			latitude: results[0].geometry.location.lat,
+			longitude: results[0].geometry.location.lng,
+		}
+		return address;
+	}
+
 	const makeRegister = async () => {
 		var errors = 0;
 
@@ -302,12 +317,39 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 					break;
 				case UserSystem.Manager:
 					const stateManager = state.form as FormManager;
-					const idManager = Guid.create();
-					const idFilial = Guid.create();
+					var idManager = Guid.create();
+					var idFilial = Guid.create();
+					let checkGuidFilial: number | null = null
+					let checkGuidManager: Manager | null = null
+					let isValid = false;
+
+					do {
+						checkGuidFilial = await FilialService.checkGuidFilial(idFilial.toString());
+						console.log("guid filial: ", checkGuidFilial)
+						if (checkGuidFilial == null) {
+							isValid = true;
+						}
+						else {
+							idFilial = Guid.create();
+						}
+					} while (isValid == false)
+
+					isValid = false;
+
+					do {
+						checkGuidManager = await ManagerService.checkGuidManager(idManager.toString());
+						console.log("guid manager: ", checkGuidManager)
+						if (checkGuidManager == null) {
+							isValid = true;
+						}
+						else {
+							idManager = Guid.create();
+						}
+					} while (isValid == false)
 
 					let manager: Manager = {
-						Id_Manager: idManager,
-						Id_Filial: idFilial,
+						Id_Manager: idManager.toString(),
+						id_Filial: idFilial.toString(),
 						Name: stateManager.managerData.Name as string,
 						Email: stateManager.managerData.Email as string,
 						RecuEmail: stateManager.managerData.RecuEmail as string,
@@ -321,44 +363,24 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 
 					const AddressToFind = `R. ${stateManager.filialData.Street}, ${stateManager.filialData.Street_Number} - ${stateManager.filialData.District}, ${stateManager.filialData.City} - ${stateManager.filialData.State}`
 
-					let latitude = 0
-					let longitude = 0;
-					let Address = "";
-
-					Geocoder.from(AddressToFind)
-						.then((response: any) => {
-							const { results } = response
-							if (results[0].status == "OK") {
-								const { lat, lng } = results[0].geometry.location;
-								latitude = lng
-								longitude = lat
-								Address = results[0].formatted_address
-							}
-						})
-						.catch((error) => {
-							console.log('Error:', error);
-						});
-
 					let filial: Filial = {
-						Id_Filial: idFilial,
-						Id_Manager: idManager,
-						Id_Status: 1,
-						Name_Filial: stateManager.filialData.Name_Filial as string,
-						Address: {
-							Address_Complete: Address,
-							latitude: latitude,
-							longitude: longitude,
-						},
+						Id_Filial: idFilial.toString(),
+						id_Manager: idManager.toString(),
+						Name_Filial: stateManager.managerData.Name as string,
+						id_Status: 1,
+						Address: await returnAddressFromApi(AddressToFind)
 					}
 
 					let responseFilialService = await FilialService.createFilial(filial);
+					console.log("responseFilialService: ", responseFilialService)
 					if (responseFilialService == 201) {
 						console.log("cadastro da filial:", JSON.stringify(stateManager.filialData));
 					}
 					let responseManagerService = await ManagerService.createManager(manager);
+					console.log("responseManagerService: ", responseManagerService)
 					if (responseManagerService == 201) {
 						console.log("cadastro da gerente:", JSON.stringify(stateManager.managerData));
-						console.log("ir para tela home");
+						console.log("voltar para tela de login");
 						navigation.navigate("LoginScreen");
 					}
 					break;
