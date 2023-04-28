@@ -1,21 +1,18 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack'
 import AnimationInitial from '../views/AnimationInitial';
-import ChooseUserScreen from '../views/ChooseUserScreen';
-import RoutesClient from './routes.client';
-import RoutesEmployee from './routes.employee';
-import RoutesManager from './routes.manager';
+import ChooseUserScreen, { ChooseUserScreenParams } from '../views/ChooseUserScreen';
 import LoginScreen, { LoginScreenParams } from '../views/LoginScreen';
-import RecoverPasswordScreen, { RecoverPasswordScreenProps } from '../views/RecoverPasswordScreen';
+import RecoverPasswordScreen, { RecoverPasswordScreenParams } from '../views/RecoverPasswordScreen';
 import RegistrationScreen, { RegistrationScreenParams, } from '../views/RegistrationScreen';
 import useAuth, { UserSystem } from '../contexts/Auth';
 
 export type RoutesNotAuthList = {
 	AnimationInitial: undefined;
-	LoginScreen: LoginScreenParams;
-	RecoverPasswordScreen: RecoverPasswordScreenProps;
-	RegistrationScreen: RegistrationScreenParams;
-	ChooseUserScreen: undefined;
+	LoginScreen: undefined;
+	RecoverPasswordScreen: undefined;
+	RegistrationScreen: undefined;
+	ChooseUserScreen: ChooseUserScreenParams;
 	RoutesClient: undefined;
 	RoutesEmployee: undefined;
 	RoutesManager: undefined;

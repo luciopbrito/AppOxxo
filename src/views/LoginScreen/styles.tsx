@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
 		color: '#fff',
 		flex: 1,
 		alignItems: 'center',
-		gap: 50,
+		gap: 30,
 		marginTop: 30,
 	},
 	container_logo: {
