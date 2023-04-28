@@ -1,11 +1,12 @@
+import { Guid } from "guid-typescript";
 import api from "./api";
 import { usePopup } from "./popups";
 
 const baseUrl = "/managers";
 
 export type Manager = {
-	Id_Manager: number,
-	id_Filial: number,
+	Id_Manager: Guid,
+	Id_Filial: Guid,
 	Name: string,
 	Email: string,
 	RecuEmail: string,
@@ -16,34 +17,40 @@ export type Manager = {
 	Phone: number
 }
 
-const getAllManagers = (): Manager[] | null => {
-	var response: Manager[] | null = null
-
-	api.get(baseUrl)
-		.then((apiResponse) => {
-			response = apiResponse.data ? apiResponse.data as Manager[] : null
-		})
-		.catch((error) => {
-			usePopup.warning("Error", error as string)
-			console.log(error)
-		});
-
-	return response;
+const getAllManagers = async (): Promise<Manager[] | null> => {
+	try {
+		const { data } = await api.get(baseUrl);
+		return data ? data : null;
+	}
+	catch (error) {
+		console.log(error);
+		usePopup.warning("Error", error as string)
+		return null;
+	}
 }
 
-const getManagerByEmailAndPassword = (email: string | null, password: string | null): Manager | null => {
-	var response: Manager | null = null
-
-	api.get(`${baseUrl}?Email=${email}&Password=${password}`)
-		.then((apiResponse) => {
-			response = apiResponse.data ? apiResponse.data as Manager : null
-		})
-		.catch((error) => {
-			usePopup.warning("Error", error as string)
-			console.log(error)
-		});
-
-	return response;
+const getManagerByEmailAndPassword = async (email: string | null, password: string | null): Promise<Manager | null> => {
+	try {
+		const { data } = await api.get(`${baseUrl}?Email=${email}&Password=${password}`);
+		return data ? data[0] : null;
+	}
+	catch (error) {
+		console.error(error)
+		usePopup.warning("Error", error as string)
+		return null
+	}
 }
 
-export const ManagerService = { getAllManagers, getManagerByEmailAndPassword };
+const createManager = async (manager: Manager): Promise<number | null> => {
+	try {
+		const { status } = await api.post(`${baseUrl}`, manager);
+		return status;
+	}
+	catch (error) {
+		console.error(error)
+		usePopup.warning("Error", error as string)
+		return null
+	}
+}
+
+export const ManagerService = { getAllManagers, getManagerByEmailAndPassword, createManager };

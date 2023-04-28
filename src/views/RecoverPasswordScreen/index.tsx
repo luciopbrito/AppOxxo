@@ -6,11 +6,11 @@ import { StyleSheet } from 'react-native';
 import logoOxxo from '../../assets/logo.png'
 import { UserSystem } from '../../contexts/Auth';
 
-export interface RecoverPasswordScreenProps {
-	type: UserSystem;
+export type RecoverPasswordScreenParams = {
+
 }
 
-const RecoverPasswordScreen: React.FC<RecoverPasswordScreenProps> = ({ type }) => {
+const RecoverPasswordScreen: React.FC<RecoverPasswordScreenParams> = ({ type }) => {
 
 	const [password, setPassword] = useState(null);
 	const [confirmPassword, setConfirmPassword] = useState(null);

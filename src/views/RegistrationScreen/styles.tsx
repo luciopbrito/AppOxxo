@@ -40,5 +40,6 @@ export const styles = StyleSheet.create({
 		color: '#fff',
 		fontWeight: "800",
 		fontSize: 30,
+		marginBottom: 50,
 	},
 })
