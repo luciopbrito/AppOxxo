@@ -10,6 +10,7 @@ import Title from '../../components/Title';
 import Subtitle from '../../components/Subtitle';
 import { ScrollView } from "react-native-gesture-handler";
 
+
 export type CuponsScreenParams = {
 
 }
@@ -71,7 +72,7 @@ const CuponsScreen: React.FC = () => {
 		<NativeBaseProvider>
 			<Box style={styles.container}>
 				<Header navigation={navigation} type={"normal"}></Header>
-				<ScrollView>
+				<ScrollView style={styles.View}>
 					<HStack w={"100%"} mb={30} justifyContent={"center"} alignItems={"center"} space={5}>
 						<Title color='white'>Pontuação</Title>
 						<Box style={styles.containerPontuacao}>

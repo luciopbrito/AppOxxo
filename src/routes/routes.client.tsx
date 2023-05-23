@@ -12,10 +12,11 @@ import LoginScreen, { LoginScreenParams } from "../views/LoginScreen";
 import CuponsScreen, { CuponsScreenParams } from "../views/CuponsScreen";
 import useAuth from "../contexts/Auth";
 import { Icon } from "native-base";
+import { StyleSheet } from "react-native";
+import DrawerCustom from "../components/DrawerCustom";
 import QrCodeScreen, {
 	QrCodeScreenParams,
 } from "../views/QrCodeScreen/QrCodeScreen";
-// import { DrawerCustom } from '../components/DrawerCustom';
 
 export type RoutesClientParams = {};
 
@@ -46,7 +47,12 @@ const RoutesClient: React.FC<RoutesClientParams> = () => {
 	return (
 		<Navigator
 			initialRouteName="HomeScreen"
-			// drawerContent={props => <DrawerCustom {...props} />}
+			screenOptions={{
+				drawerStyle: {
+					backgroundColor: "#F00",
+					color: "#fff",
+				},
+			}}
 		>
 			<Screen
 				options={{
@@ -56,7 +62,7 @@ const RoutesClient: React.FC<RoutesClientParams> = () => {
 						<Ionicons
 							name="md-home"
 							size={size}
-							color={focused ? "#7cc" : "#ccc"}
+							color={focused ? "#FBB110" : "#fff"}
 						/>
 					),
 				}}
@@ -71,7 +77,7 @@ const RoutesClient: React.FC<RoutesClientParams> = () => {
 						<Ionicons
 							name="cart"
 							size={size}
-							color={focused ? "#7cc" : "#ccc"}
+							color={focused ? "#FBB110" : "#fff"}
 						/>
 					),
 				}}
@@ -86,7 +92,7 @@ const RoutesClient: React.FC<RoutesClientParams> = () => {
 						<FontAwesome
 							name="ticket"
 							size={size}
-							color={focused ? "#7cc" : "#ccc"}
+							color={focused ? "#FBB110" : "#fff"}
 						/>
 					),
 				}}
@@ -101,7 +107,7 @@ const RoutesClient: React.FC<RoutesClientParams> = () => {
 						<Ionicons
 							name="person"
 							size={size}
-							color={focused ? "#7cc" : "#ccc"}
+							color={focused ? "#FBB110" : "#fff"}
 						/>
 					),
 				}}
@@ -116,7 +122,7 @@ const RoutesClient: React.FC<RoutesClientParams> = () => {
 						<Ionicons
 							name="log-out"
 							size={size}
-							color={focused ? "#7cc" : "#ccc"}
+							color={focused ? "#FBB110" : "#fff"}
 						/>
 					),
 				}}
@@ -143,5 +149,13 @@ const RoutesClient: React.FC<RoutesClientParams> = () => {
 		</Navigator>
 	);
 };
+
+const styles = StyleSheet.create({
+	titleProduto: {
+		fontSize: 15,
+		fontWeight: "bold",
+		backgroundColor: "#f00",
+	},
+});
 
 export default RoutesClient;
