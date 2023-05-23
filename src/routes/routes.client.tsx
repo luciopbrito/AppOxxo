@@ -1,22 +1,29 @@
-import { DrawerNavigationProp, createDrawerNavigator } from '@react-navigation/drawer';
-import HomeScreen, { HomeScreenParams } from '../views/HomeScreen';
-import AccountScreen, { AccountScreenParams } from '../views/AccountScreen/';
-import ProdutosScreen, { ProdutosScreenParams } from '../views/ProdutosScreen';
-import React, { useEffect } from 'react';
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
-import { RouteProp } from '@react-navigation/native';
-import LoginScreen, { LoginScreenParams } from '../views/LoginScreen';
-import CuponsScreen, { CuponsScreenParams } from '../views/CuponsScreen';
-import useAuth from '../contexts/Auth';
-import { Icon } from 'native-base';
+import {
+	DrawerNavigationProp,
+	createDrawerNavigator,
+} from "@react-navigation/drawer";
+import HomeScreen, { HomeScreenParams } from "../views/HomeScreen";
+import AccountScreen, { AccountScreenParams } from "../views/AccountScreen/";
+import ProdutosScreen, { ProdutosScreenParams } from "../views/ProdutosScreen";
+import React, { useEffect } from "react";
+import { Ionicons, FontAwesome } from "@expo/vector-icons";
+import { RouteProp } from "@react-navigation/native";
+import LoginScreen, { LoginScreenParams } from "../views/LoginScreen";
+import CuponsScreen, { CuponsScreenParams } from "../views/CuponsScreen";
+import useAuth from "../contexts/Auth";
+import { Icon } from "native-base";
+import QrCodeScreen, {
+	QrCodeScreenParams,
+} from "../views/QrCodeScreen/QrCodeScreen";
 // import { DrawerCustom } from '../components/DrawerCustom';
 
-export type RoutesClientParams = {
-
-}
+export type RoutesClientParams = {};
 
 type RoutesClientRouteProp = RouteProp<RoutesClientList>;
-type RoutesClientNavigationProp = DrawerNavigationProp<RoutesClientList, keyof RoutesClientList>;
+type RoutesClientNavigationProp = DrawerNavigationProp<
+	RoutesClientList,
+	keyof RoutesClientList
+>;
 
 export type RoutesClientList = {
 	HomeScreen: HomeScreenParams;
@@ -24,10 +31,10 @@ export type RoutesClientList = {
 	ProdutosScreen: ProdutosScreenParams;
 	LoginScreen: LoginScreenParams;
 	CuponsScreen: CuponsScreenParams;
+	QrCodeScreen: QrCodeScreenParams;
 };
 
 const RoutesClient: React.FC<RoutesClientParams> = () => {
-
 	const { userType } = useAuth();
 
 	useEffect(() => {
@@ -39,17 +46,17 @@ const RoutesClient: React.FC<RoutesClientParams> = () => {
 	return (
 		<Navigator
 			initialRouteName="HomeScreen"
-		// drawerContent={props => <DrawerCustom {...props} />}
+			// drawerContent={props => <DrawerCustom {...props} />}
 		>
 			<Screen
 				options={{
 					headerShown: false,
-					drawerLabel: 'Início',
+					drawerLabel: "Início",
 					drawerIcon: ({ focused, size }) => (
 						<Ionicons
 							name="md-home"
 							size={size}
-							color={focused ? '#7cc' : '#ccc'}
+							color={focused ? "#7cc" : "#ccc"}
 						/>
 					),
 				}}
@@ -59,12 +66,12 @@ const RoutesClient: React.FC<RoutesClientParams> = () => {
 			<Screen
 				options={{
 					headerShown: false,
-					drawerLabel: 'Produtos',
+					drawerLabel: "Produtos",
 					drawerIcon: ({ focused, size }) => (
 						<Ionicons
 							name="cart"
 							size={size}
-							color={focused ? '#7cc' : '#ccc'}
+							color={focused ? "#7cc" : "#ccc"}
 						/>
 					),
 				}}
@@ -74,12 +81,12 @@ const RoutesClient: React.FC<RoutesClientParams> = () => {
 			<Screen
 				options={{
 					headerShown: false,
-					drawerLabel: 'Cupons',
+					drawerLabel: "Cupons",
 					drawerIcon: ({ focused, size }) => (
 						<FontAwesome
 							name="ticket"
 							size={size}
-							color={focused ? '#7cc' : '#ccc'}
+							color={focused ? "#7cc" : "#ccc"}
 						/>
 					),
 				}}
@@ -89,12 +96,12 @@ const RoutesClient: React.FC<RoutesClientParams> = () => {
 			<Screen
 				options={{
 					headerShown: false,
-					drawerLabel: 'Conta',
+					drawerLabel: "Conta",
 					drawerIcon: ({ focused, size }) => (
 						<Ionicons
 							name="person"
 							size={size}
-							color={focused ? '#7cc' : '#ccc'}
+							color={focused ? "#7cc" : "#ccc"}
 						/>
 					),
 				}}
@@ -104,18 +111,34 @@ const RoutesClient: React.FC<RoutesClientParams> = () => {
 			<Screen
 				options={{
 					headerShown: false,
-					drawerLabel: 'Sair',
+					drawerLabel: "Sair",
 					drawerIcon: ({ focused, size }) => (
 						<Ionicons
 							name="log-out"
 							size={size}
-							color={focused ? '#7cc' : '#ccc'}
+							color={focused ? "#7cc" : "#ccc"}
 						/>
 					),
 				}}
 				name="LoginScreen"
 				initialParams={{ type: userType }}
 				component={LoginScreen as React.FC}
+			/>
+			<Screen
+				options={{
+					headerShown: false,
+					drawerLabel: "",
+					// drawerIcon: ({ focused, size }) => (
+					// 	<Ionicons
+					// 		name="log-out"
+					// 		size={size}
+					// 		color={focused ? "#7cc" : "#ccc"}
+					// 	/>
+					// ),
+				}}
+				name="QrCodeScreen"
+				initialParams={{ type: userType }}
+				component={QrCodeScreen as React.FC}
 			/>
 		</Navigator>
 	);
