@@ -1,6 +1,6 @@
-import React, { PropsWithChildren, PropsWithRef } from 'react';
+import React from 'react';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
-import { View } from 'native-base';
+import { NativeBaseProvider, View } from 'native-base';
 
 interface Props {
 	props: any;
@@ -8,11 +8,13 @@ interface Props {
 
 const DrawerCustom: React.FC<Props> = ({ props }) => {
 	return (
-		<View>
-			<DrawerContentScrollView {...props} >
-				<DrawerItemList {...props} />
-			</DrawerContentScrollView>
-		</View>
+		<NativeBaseProvider>
+			<View>
+				<DrawerContentScrollView {...props} >
+					<DrawerItemList {...props} />
+				</DrawerContentScrollView>
+			</View>
+		</NativeBaseProvider>
 	);
 }
 
