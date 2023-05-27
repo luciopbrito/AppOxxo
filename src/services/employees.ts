@@ -1,49 +1,58 @@
-import api from "./api"
-import { usePopup } from "./popups";
+import api from './api';
+import { usePopup } from './popups';
 
-const baseUrl = "/employees";
+const baseUrl = '/employees';
 
-export type Employee = {
-	Id_Employee: number,
-	Id_Filial: number,
-	Name: string,
-	Email: string,
-	RecuEmail: string,
-	Password: string,
-	LastChangePassword: string | null,
-	Genero: number,
-	Photo: string | null,
-	Phone: number
+export interface Employee {
+	Id_Employee: number;
+	Id_Filial: number;
+	Name: string;
+	Email: string;
+	RecuEmail: string;
+	Password: string;
+	LastChangePassword: string | null;
+	Genero: number;
+	Photo: string | null;
+	Phone: number;
 }
 
 const getAllEmployees = (): Employee[] | null => {
-	var response: Employee[] | null = null;
+	let response: Employee[] | null = null;
 
-	api.get(baseUrl)
+	api
+		.get(baseUrl)
 		.then((apiResponse) => {
-			response = apiResponse.data ? apiResponse.data as Employee[] : null;
+			response = apiResponse.data ? (apiResponse.data as Employee[]) : null;
 		})
 		.catch((error) => {
-			usePopup.warning("Error", error as string)
+			usePopup.warning('Error', error as string);
 			console.log(error);
 		});
 
 	return response;
-}
+};
 
-const getEmployeeByEmailAndPassword = (email: string | null, password: string | null): Employee | null => {
-	var response: Employee | null = null
+const getEmployeeByEmailAndPassword = (
+	email: string | null,
+	password: string | null
+): Employee | null => {
+	let response: Employee | null = null;
 
-	api.get(`${baseUrl}?Email=${email}&Password=${password}`)
+	api
+		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+		.get(`${baseUrl}?Email=${email}&Password=${password}`)
 		.then((apiResponse) => {
-			response = apiResponse.data ? apiResponse.data as Employee : null
+			response = apiResponse.data ? (apiResponse.data as Employee) : null;
 		})
 		.catch((error) => {
-			usePopup.warning("Error", error as string)
-			console.log(error)
+			usePopup.warning('Error', error as string);
+			console.log(error);
 		});
 
 	return response;
-}
+};
 
-export const EmployeeService = { getAllEmployees, getEmployeeByEmailAndPassword };
+export const EmployeeService = {
+	getAllEmployees,
+	getEmployeeByEmailAndPassword,
+};
