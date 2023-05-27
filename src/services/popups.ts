@@ -1,12 +1,17 @@
-import React from "react";
-import { Alert, AlertButton } from "react-native";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import React from 'react';
+import { Alert, type AlertButton } from 'react-native';
 
-const warning = (title: string, message: string) => {
-	return Alert.alert(title, message)
-}
+const warning = (title: string, message: string): void => {
+	Alert.alert(title, message);
+};
 
-const messageOptions = (title: string, message: string, btns: AlertButton[]) => {
-	return Alert.alert(title, message, btns)
-}
+const messageOptions = (
+	title: string,
+	message: string,
+	btns: AlertButton[]
+): void => {
+	Alert.alert(title, message, btns);
+};
 
 export const usePopup = { warning, messageOptions };

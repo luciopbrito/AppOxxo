@@ -3,22 +3,23 @@ import { Text } from 'native-base';
 
 // import { Container } from './styles';
 
-type TitleParams = {
-	children: React.ReactNode,
-	textAlign?: any,
-	color?: string,
+interface TitleParams {
+	children: React.ReactNode;
+	textAlign?: any;
+	color?: string;
 }
 
 const Title: React.FC<TitleParams> = ({ children, color, textAlign }) => {
 	return (
-		<Text textAlign={textAlign ? textAlign : undefined}
+		<Text
+			// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+			textAlign={textAlign || undefined}
 			fontSize={25}
-			fontWeight={"bold"}
-			color={color}
-		>
+			fontWeight={'bold'}
+			color={color}>
 			{children}
-		</Text >
+		</Text>
 	);
-}
+};
 
 export default Title;
