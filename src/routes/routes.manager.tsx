@@ -1,28 +1,27 @@
-import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
-import { RouteProp } from '@react-navigation/native';
-import HomeScreen, { HomeScreenParams } from '../views/HomeScreen';
-import AccountScreen, { AccountScreenParams } from '../views/AccountScreen';
-import LoginScreen, { LoginScreenParams } from '../views/LoginScreen';
+import HomeScreen, { type HomeScreenParams } from '../views/HomeScreen';
+import AccountScreen, {
+	type AccountScreenParams,
+} from '../views/AccountScreen';
+import LoginScreen, { type LoginScreenParams } from '../views/LoginScreen';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
 import useAuth from '../contexts/Auth';
 
-export type RoutesManagerParams = {
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface RoutesManagerParams {}
 
-}
-
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type RoutesManagerList = {
 	HomeScreen: HomeScreenParams;
 	AccountScreen: AccountScreenParams;
 	LoginScreen: LoginScreenParams;
-}
+};
 
-type RoutesManagerRouteProp = RouteProp<RoutesManagerList>;
-type RoutesManagerNavigationProp = StackNavigationProp<RoutesManagerList>;
+// type RoutesManagerRouteProp = RouteProp<RoutesManagerList>;
+// type RoutesManagerNavigationProp = StackNavigationProp<RoutesManagerList>;
 
 const RoutesManager: React.FC = () => {
-
 	const { userType } = useAuth();
 
 	const { Navigator, Screen } = createDrawerNavigator<RoutesManagerList>();
@@ -30,7 +29,7 @@ const RoutesManager: React.FC = () => {
 	return (
 		<Navigator
 			initialRouteName="HomeScreen"
-		// drawerContent={props => <DrawerCustom {...props} />}
+			// drawerContent={props => <DrawerCustom {...props} />}
 		>
 			<Screen
 				options={{
@@ -106,10 +105,10 @@ const RoutesManager: React.FC = () => {
 				}}
 				name="LoginScreen"
 				initialParams={{ type: userType }}
-				component={LoginScreen as React.FC}
+				component={LoginScreen}
 			/>
 		</Navigator>
 	);
-}
+};
 
 export default RoutesManager;

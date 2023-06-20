@@ -1,12 +1,14 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack'
+import { createStackNavigator } from '@react-navigation/stack';
 import AnimationInitial from '../views/AnimationInitial';
-import ChooseUserScreen, { ChooseUserScreenParams } from '../views/ChooseUserScreen';
-import LoginScreen, { LoginScreenParams } from '../views/LoginScreen';
-import RecoverPasswordScreen, { RecoverPasswordScreenParams } from '../views/RecoverPasswordScreen';
-import RegistrationScreen, { RegistrationScreenParams, } from '../views/RegistrationScreen';
-import useAuth, { UserSystem } from '../contexts/Auth';
+import ChooseUserScreen, {
+	type ChooseUserScreenParams,
+} from '../views/ChooseUserScreen';
+import LoginScreen from '../views/LoginScreen';
+import RecoverPasswordScreen from '../views/RecoverPasswordScreen';
+import RegistrationScreen from '../views/RegistrationScreen';
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type RoutesNotAuthList = {
 	AnimationInitial: undefined;
 	LoginScreen: undefined;
@@ -16,39 +18,29 @@ export type RoutesNotAuthList = {
 	RoutesClient: undefined;
 	RoutesEmployee: undefined;
 	RoutesManager: undefined;
-}
+};
 
 const RoutesNotAuth: React.FC = () => {
 	const { Navigator, Screen } = createStackNavigator<RoutesNotAuthList>();
 	return (
 		<Navigator
 			screenOptions={{
-				headerShown: false
+				headerShown: false,
 			}}
-			initialRouteName='AnimationInitial'
-		>
+			initialRouteName="AnimationInitial">
+			<Screen name="AnimationInitial" component={AnimationInitial} />
+			<Screen name="ChooseUserScreen" component={ChooseUserScreen} />
+			<Screen name="LoginScreen" component={LoginScreen} />
 			<Screen
-				name='AnimationInitial'
-				component={AnimationInitial}
-			/>
-			<Screen
-				name='ChooseUserScreen'
-				component={ChooseUserScreen}
-			/>
-			<Screen
-				name='LoginScreen'
-				component={LoginScreen as React.FC}
-			/>
-			<Screen
-				name='RecoverPasswordScreen'
+				name="RecoverPasswordScreen"
 				component={RecoverPasswordScreen as React.FC}
 			/>
 			<Screen
-				name='RegistrationScreen'
+				name="RegistrationScreen"
 				component={RegistrationScreen as React.FC}
 			/>
 		</Navigator>
 	);
-}
+};
 
 export default RoutesNotAuth;

@@ -4,7 +4,7 @@ import Routes from './routes';
 import { AuthProvider } from './contexts/Auth';
 import { NavigationContainer } from '@react-navigation/native';
 
-export default function App() {
+export default function App(): JSX.Element {
 	return (
 		<NavigationContainer>
 			<AuthProvider>
