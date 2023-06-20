@@ -72,7 +72,7 @@ const CuponsScreen: React.FC = () => {
 	return (
 		<NativeBaseProvider>
 			<Box style={styles.container}>
-				<Header navigation={navigation} type={'normal'}></Header>
+				<Header nav={navigation} type={'normal'}></Header>
 				<ScrollView style={styles.View}>
 					<HStack
 						w={'100%'}

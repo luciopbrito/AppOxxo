@@ -1,19 +1,19 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import HomeScreen, { type HomeScreenParams } from '../views/HomeScreen';
-import AccountScreen, {
-	type AccountScreenParams,
-} from '../views/AccountScreen/';
-import ProdutosScreen, {
-	type ProdutosScreenParams,
-} from '../views/ProdutosScreen';
 import React, { useEffect } from 'react';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import LoginScreen, { type LoginScreenParams } from '../views/LoginScreen';
 import CuponsScreen, { type CuponsScreenParams } from '../views/CuponsScreen';
 import useAuth from '../contexts/Auth';
-import QrCodeScreen, {
-	type QrCodeScreenParams,
-} from '../views/QrCodeScreen/QrCodeScreen';
+import RoutesFlowCheckout, {
+	type RoutesFlowCheckoutParams,
+} from './routes.flow-checkout';
+import { type CreditCardScreenParams } from '../views/CreditCardScreen';
+import FlowAccountScreen, {
+	type RoutesFlowAccountScreenParams,
+} from './routes.flow-account';
+import { Colors } from '../globalStyles';
+import { type StyleProp, type ViewStyle } from 'react-native';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface RoutesClientParams {}
@@ -21,11 +21,11 @@ export interface RoutesClientParams {}
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type RoutesClientList = {
 	HomeScreen: HomeScreenParams;
-	AccountScreen: AccountScreenParams;
-	ProdutosScreen: ProdutosScreenParams;
+	FlowAccountScreen: RoutesFlowAccountScreenParams;
+	FlowCheckout: RoutesFlowCheckoutParams;
 	LoginScreen: LoginScreenParams;
 	CuponsScreen: CuponsScreenParams;
-	QrCodeScreen: QrCodeScreenParams;
+	CreditCardScreen: CreditCardScreenParams;
 };
 
 // type RoutesClientRouteProp = RouteProp<RoutesClientList>;
@@ -47,10 +47,11 @@ const RoutesClient: React.FC<RoutesClientParams> = () => {
 		<Navigator
 			initialRouteName="HomeScreen"
 			screenOptions={{
+				// eslint-disable-next-line
 				drawerStyle: {
-					backgroundColor: '#F00',
-					color: '#fff',
-				},
+					backgroundColor: Colors.red,
+					color: Colors.white,
+				} as StyleProp<ViewStyle>,
 			}}>
 			<Screen
 				options={{
@@ -66,21 +67,6 @@ const RoutesClient: React.FC<RoutesClientParams> = () => {
 				}}
 				name="HomeScreen"
 				component={HomeScreen}
-			/>
-			<Screen
-				options={{
-					headerShown: false,
-					drawerLabel: 'Produtos',
-					drawerIcon: ({ focused, size }) => (
-						<Ionicons
-							name="cart"
-							size={size}
-							color={focused ? '#FBB110' : '#fff'}
-						/>
-					),
-				}}
-				name="ProdutosScreen"
-				component={ProdutosScreen}
 			/>
 			<Screen
 				options={{
@@ -109,8 +95,8 @@ const RoutesClient: React.FC<RoutesClientParams> = () => {
 						/>
 					),
 				}}
-				name="AccountScreen"
-				component={AccountScreen}
+				name="FlowAccountScreen"
+				component={FlowAccountScreen}
 			/>
 			<Screen
 				options={{
@@ -132,17 +118,17 @@ const RoutesClient: React.FC<RoutesClientParams> = () => {
 				options={{
 					headerShown: false,
 					drawerLabel: '',
-					// drawerIcon: ({ focused, size }) => (
-					// 	<Ionicons
-					// 		name="log-out"
-					// 		size={size}
-					// 		color={focused ? "#7cc" : "#ccc"}
-					// 	/>
-					// ),
+					drawerItemStyle: { display: 'none' },
+					drawerIcon: ({ focused, size }) => (
+						<Ionicons
+							name="cart"
+							size={size}
+							color={focused ? '#FBB110' : '#fff'}
+						/>
+					),
 				}}
-				name="QrCodeScreen"
-				initialParams={{ type: userType }}
-				component={QrCodeScreen as React.FC}
+				name="FlowCheckout"
+				component={RoutesFlowCheckout}
 			/>
 		</Navigator>
 	);

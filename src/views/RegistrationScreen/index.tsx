@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
 	Button,
 	Box,
@@ -9,50 +9,46 @@ import {
 	VStack,
 	Radio,
 	HStack,
-} from "native-base";
-import { Image, TouchableOpacity, Alert } from "react-native";
-import image_logo from "../../assets/logo.png";
-import FormInput from "../../components/FormInput";
-import useAuth, { UserSystem } from "../../contexts/Auth";
-import {
-	NavigationProp,
-	RouteProp,
-	useNavigation,
-} from "@react-navigation/native";
-import { RoutesNotAuthList } from "../../routes/routes.not.auth";
-import { styles } from "./styles";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { Client, ClientService } from "../../services/clients";
-import { Guid } from "guid-typescript";
-import { usePopup } from "../../services/popups";
-import { Employee } from "../../services/employees";
-import Title from "../../components/Title";
-import Subtitle from "../../components/Subtitle";
-import { Manager, ManagerService } from "../../services/managers";
-import { Filial, FilialService } from "../../services/filial";
-import Geocoder from "react-native-geocoding";
-import env from "../../../env";
+} from 'native-base';
+import { Image, TouchableOpacity } from 'react-native';
+import image_logo from '../../assets/logo.png';
+import FormInput from '../../components/FormInput';
+import useAuth, { UserSystem } from '../../contexts/Auth';
+import { type RouteProp, useNavigation } from '@react-navigation/native';
+import { type RoutesNotAuthList } from '../../routes/routes.not.auth';
+import { styles } from './styles';
+import { type StackNavigationProp } from '@react-navigation/stack';
+import { type Client, ClientService } from '../../services/clients';
+import { type Guid } from 'guid-typescript';
+import { usePopup } from '../../services/popups';
+import Title from '../../components/Title';
+import Subtitle from '../../components/Subtitle';
+import { type Manager, ManagerService } from '../../services/managers';
+import { type Filial, FilialService } from '../../services/filial';
+import Geocoder from 'react-native-geocoding';
+import env from '../../../env';
 
-export type RegistrationScreenParams = {
+export interface RegistrationScreenParams {
 	// route?: ResgistrationScreenRouteProps
-};
-
+}
+// eslint-disable-next-line
 type ResgistrationScreenRouteProps = RouteProp<
 	RoutesNotAuthList,
-	"RegistrationScreen"
+	'RegistrationScreen'
 >;
+// eslint-disable-next-line
 type RegistrationScreenNavigationProps = StackNavigationProp<
 	RoutesNotAuthList,
-	"RegistrationScreen"
+	'RegistrationScreen'
 >;
 
-type Address = {
+interface Address {
 	Address_Complete: string;
 	latitude: number;
 	longitude: number;
-};
+}
 
-type FormClient = {
+interface FormClient {
 	// Id_Client: number,
 	Name: string | null;
 	Email: string | null;
@@ -62,9 +58,9 @@ type FormClient = {
 	// Genero: number | null,
 	// BirthDate: Date | null
 	Phone: number | null;
-};
+}
 
-type FormManager = {
+interface FormManager {
 	managerData: {
 		// Id_Manager: number,
 		// id_Filial: number,
@@ -84,9 +80,9 @@ type FormManager = {
 		City: string | null;
 		State: string | null;
 	};
-};
+}
 
-type FormEmployee = {
+interface FormEmployee {
 	employeeData: {
 		// Id_Employee: number,
 		// Id_Filial: number,
@@ -102,10 +98,10 @@ type FormEmployee = {
 		Name_Filial: string | null;
 		Address: string | null;
 	};
-};
+}
 
 const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
-	//context
+	// context
 	const { setAuthData, userType } = useAuth();
 
 	const navigation = useNavigation<RegistrationScreenNavigationProps>();
@@ -119,7 +115,7 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 		buildState();
 	}, []);
 
-	const buildState = () => {
+	const buildState = (): void => {
 		switch (userType) {
 			case UserSystem.Client:
 				setState({
@@ -179,7 +175,7 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 		}
 	};
 
-	const changeFormClient = (key: string, value: any) => {
+	const changeFormClient = (key: string, value: any): void => {
 		setState((prev) => {
 			return {
 				...prev,
@@ -192,8 +188,8 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 	};
 
 	const changeFormEmployee = (key: string, value: any) => {
-		let prevState = state.form as FormEmployee;
-		let prevEmployee = prevState.employeeData;
+		const prevState = state.form as FormEmployee;
+		const prevEmployee = prevState.employeeData;
 		setState((prev) => {
 			return {
 				...prev,
@@ -250,7 +246,7 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 		switch (userType) {
 			case UserSystem.Client:
 				Object.values(state.form).map((value) => {
-					if (value == null) {
+					if (value === null) {
 						errors++;
 					}
 				});
@@ -260,22 +256,22 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 			case UserSystem.Manager:
 				let stateManager = state.form as FormManager;
 				Object.values(stateManager.managerData).map((value) => {
-					if (value == null) {
+					if (value === null) {
 						errors++;
 					}
 				});
 				Object.values(stateManager.filialData).map((value) => {
-					if (value == null) {
+					if (value === null) {
 						errors++;
 					}
 				});
 				break;
 		}
 
-		if (errors == 0) {
+		if (errors === 0) {
 			await verifyPassword();
 		} else {
-			usePopup.warning("Cadastro Inválido", "Preencha todas os campos");
+			usePopup.warning('Cadastro Inválido', 'Preencha todas os campos');
 		}
 	};
 
@@ -286,7 +282,7 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 		switch (userType) {
 			case UserSystem.Client:
 				let formClient = state.form as FormClient;
-				if (formClient.Password == formClient.ConfirmPassword) {
+				if (formClient.Password === formClient.ConfirmPassword) {
 					verifPassword = true;
 				} else {
 					showError = !showError;
@@ -295,7 +291,7 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 			case UserSystem.Employee:
 				let formEmployee = state.form as FormEmployee;
 				if (
-					formEmployee.employeeData.Password ==
+					formEmployee.employeeData.Password ===
 					formEmployee.employeeData.ConfirmPassword
 				) {
 					verifPassword = true;
@@ -306,7 +302,7 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 			case UserSystem.Manager:
 				let formManager = state.form as FormManager;
 				if (
-					formManager.managerData.Password ==
+					formManager.managerData.Password ===
 					formManager.managerData.ConfirmPassword
 				) {
 					verifPassword = true;
@@ -317,7 +313,7 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 		}
 
 		if (showError) {
-			return usePopup.warning("Senha Inválida", "senhas não correspondentes");
+			return usePopup.warning('Senha Inválida', 'senhas não correspondentes');
 		}
 
 		if (verifPassword) {
@@ -337,10 +333,10 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 						Phone: stateClient.Phone as number,
 					};
 					let response = await ClientService.createClient(client);
-					if (response == 201) {
-						console.log("cadastro:", JSON.stringify(state.form));
-						console.log("ir para tela home");
-						navigation.navigate("LoginScreen");
+					if (response === 201) {
+						console.log('cadastro:', JSON.stringify(state.form));
+						console.log('ir para tela home');
+						navigation.navigate('LoginScreen');
 					}
 					break;
 				case UserSystem.Employee:
@@ -359,13 +355,13 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 						checkGuidFilial = await FilialService.checkGuidFilial(
 							idFilial.toString()
 						);
-						console.log("guid filial: ", checkGuidFilial);
-						if (checkGuidFilial == null) {
+						console.log('guid filial: ', checkGuidFilial);
+						if (checkGuidFilial === null) {
 							isValid = true;
 						} else {
 							idFilial = Guid.create();
 						}
-					} while (isValid == false);
+					} while (isValid === false);
 
 					isValid = false;
 
@@ -373,8 +369,8 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 						checkGuidManager = await ManagerService.checkGuidManager(
 							idManager.toString()
 						);
-						console.log("guid manager: ", checkGuidManager);
-						if (checkGuidManager == null) {
+						console.log('guid manager: ', checkGuidManager);
+						if (checkGuidManager === null) {
 							isValid = true;
 						} else {
 							idManager = Guid.create();
@@ -405,25 +401,27 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 						Address: await returnAddressFromApi(AddressToFind),
 					};
 
-					let responseFilialService = await FilialService.createFilial(filial);
-					console.log("responseFilialService: ", responseFilialService);
-					if (responseFilialService == 201) {
+					const responseFilialService = await FilialService.createFilial(
+						filial
+					);
+					console.log('responseFilialService: ', responseFilialService);
+					if (responseFilialService === 201) {
 						console.log(
-							"cadastro da filial:",
+							'cadastro da filial:',
 							JSON.stringify(stateManager.filialData)
 						);
 					}
-					let responseManagerService = await ManagerService.createManager(
+					const responseManagerService = await ManagerService.createManager(
 						manager
 					);
-					console.log("responseManagerService: ", responseManagerService);
-					if (responseManagerService == 201) {
+					console.log('responseManagerService: ', responseManagerService);
+					if (responseManagerService === 201) {
 						console.log(
-							"cadastro da gerente:",
+							'cadastro da gerente:',
 							JSON.stringify(stateManager.managerData)
 						);
-						console.log("voltar para tela de login");
-						navigation.navigate("LoginScreen");
+						console.log('voltar para tela de login');
+						navigation.navigate('LoginScreen');
 					}
 					break;
 			}
@@ -434,7 +432,7 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 		switch (userType) {
 			case UserSystem.Client:
 				return (
-					<HStack space={3} alignItems={"center"}>
+					<HStack space={3} alignItems={'center'}>
 						<Text style={{ fontSize: 16 }}>Sexo:</Text>
 						<Radio.Group
 							name="Genero"
@@ -443,8 +441,7 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 								setState((prev) => {
 									return { ...prev, Genero: +nextValue };
 								});
-							}}
-						>
+							}}>
 							<HStack space={3}>
 								<Radio value="1" my="1">
 									Masculino
@@ -458,7 +455,7 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 				);
 			case UserSystem.Employee:
 				return (
-					<HStack space={3} alignItems={"center"}>
+					<HStack space={3} alignItems={'center'}>
 						<Text style={{ fontSize: 16 }}>Sexo:</Text>
 						<Radio.Group
 							name="Genero"
@@ -467,8 +464,7 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 								setState((prev) => {
 									return { ...prev, Genero: +nextValue };
 								});
-							}}
-						>
+							}}>
 							<HStack space={3}>
 								<Radio value="1" my="1">
 									Masculino
@@ -482,7 +478,7 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 				);
 			case UserSystem.Manager:
 				return (
-					<HStack space={3} alignItems={"center"}>
+					<HStack space={3} alignItems={'center'}>
 						<Text style={{ fontSize: 16 }}>Sexo:</Text>
 						<Radio.Group
 							name="Genero"
@@ -491,8 +487,7 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 								setState((prev) => {
 									return { ...prev, Genero: +nextValue };
 								});
-							}}
-						>
+							}}>
 							<HStack space={3}>
 								<Radio value="1" my="1">
 									Masculino
@@ -515,33 +510,33 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 						<FormInput
 							placeholder="Nome Completo"
 							funcState={changeFormClient}
-							field={"Name"}
+							field={'Name'}
 						/>
 						{/* <FormInput placeholder='Data de Nascimento' funcState={changeFormClient} field={"BirthDate"} /> */}
 						<FormInput
 							placeholder="E-mail"
 							funcState={changeFormClient}
-							field={"Email"}
+							field={'Email'}
 						/>
 						<FormInput
 							placeholder="Telefone/WhatsApp:"
 							funcState={changeFormClient}
-							field={"Phone"}
+							field={'Phone'}
 						/>
 						<FormInput
 							placeholder="Email para recuperação de Senha"
 							funcState={changeFormClient}
-							field={"RecuEmail"}
+							field={'RecuEmail'}
 						/>
 						<FormInput
 							placeholder="Digite sua senha:"
 							funcState={changeFormClient}
-							field={"Password"}
+							field={'Password'}
 						/>
 						<FormInput
 							placeholder="Repita sua senha:"
 							funcState={changeFormClient}
-							field={"ConfirmPassword"}
+							field={'ConfirmPassword'}
 						/>
 						{showRadio()}
 					</>
@@ -552,7 +547,7 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 						<FormInput
 							placeholder="Nome Completo"
 							funcState={changeFormClient}
-							field={"Name"}
+							field={'Name'}
 						/>
 						{showRadio()}
 					</>
@@ -560,69 +555,69 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 			case UserSystem.Manager:
 				return (
 					<>
-						<Subtitle color={"#fff"}>Dados Pessoais</Subtitle>
+						<Subtitle color={'#fff'}>Dados Pessoais</Subtitle>
 						<FormInput
 							placeholder="Nome Completo"
 							funcState={changeFormManager}
-							field={"Name"}
+							field={'Name'}
 						/>
 						{/* <FormInput placeholder='Data de Nascimento' funcState={changeFormManager} field={"BirthDate"} /> */}
 						<FormInput
 							placeholder="E-mail"
 							funcState={changeFormManager}
-							field={"Email"}
+							field={'Email'}
 						/>
 						<FormInput
 							placeholder="Email para recuperação de Senha"
 							funcState={changeFormManager}
-							field={"RecuEmail"}
+							field={'RecuEmail'}
 						/>
 						<FormInput
 							placeholder="Digite sua senha"
 							funcState={changeFormManager}
-							field={"Password"}
+							field={'Password'}
 						/>
 						<FormInput
 							placeholder="Repita sua senha"
 							funcState={changeFormManager}
-							field={"ConfirmPassword"}
+							field={'ConfirmPassword'}
 						/>
 						<FormInput
 							placeholder="Telefone/WhatsApp"
 							funcState={changeFormManager}
-							field={"Phone"}
+							field={'Phone'}
 						/>
 						{showRadio()}
-						<Subtitle color={"#fff"}>Dados da Filial</Subtitle>
+						<Subtitle color={'#fff'}>Dados da Filial</Subtitle>
 						<FormInput
 							placeholder="Nome da Filial"
 							funcState={changeFormMangerFilial}
-							field={"Name_Filial"}
+							field={'Name_Filial'}
 						/>
 						<FormInput
 							placeholder="Rua"
 							funcState={changeFormMangerFilial}
-							field={"Street"}
+							field={'Street'}
 						/>
 						<FormInput
 							placeholder="Número"
 							funcState={changeFormMangerFilial}
-							field={"Street_Number"}
+							field={'Street_Number'}
 						/>
 						<FormInput
 							placeholder="Bairro"
 							funcState={changeFormMangerFilial}
-							field={"District"}
+							field={'District'}
 						/>
 						<FormInput
 							placeholder="Cidade"
 							funcState={changeFormMangerFilial}
-							field={"City"}
+							field={'City'}
 						/>
 						<FormInput
 							placeholder="Estado"
 							funcState={changeFormMangerFilial}
-							field={"State"}
+							field={'State'}
 						/>
 					</>
 				);
@@ -647,8 +642,7 @@ const RegistrationScreen: React.FC<RegistrationScreenParams> = () => {
 							style={styles.btnSubmit}
 							onPress={() => {
 								makeRegister();
-							}}
-						>
+							}}>
 							Cadastrar
 						</Button>
 					</TouchableOpacity>

@@ -1,19 +1,22 @@
 import { Feather } from '@expo/vector-icons';
+import { type DrawerNavigationProp } from '@react-navigation/drawer';
+import { useNavigation } from '@react-navigation/native';
 import { Avatar, HStack, Icon, Image, Pressable } from 'native-base';
 import React from 'react';
 import Logo from '../../assets/logo.png';
 import userPhoto from '../../assets/user_photo.png';
 import useAuth from '../../contexts/Auth';
+import { type RoutesClientList } from '../../routes/routes.client';
 
 interface HeaderParams {
-	navigation: any;
+	nav?: any;
 	type: string;
 	children?: React.ReactNode;
 }
 
-const Header: React.FC<HeaderParams> = ({ navigation, type, children }) => {
+const Header: React.FC<HeaderParams> = ({ nav, type, children }) => {
 	const { user } = useAuth();
-
+	const navigation = nav;
 	switch (type) {
 		case 'full':
 			return (
@@ -29,7 +32,7 @@ const Header: React.FC<HeaderParams> = ({ navigation, type, children }) => {
 					p="3">
 					<Pressable
 						onPress={() => {
-							navigation.openDrawer();
+							navigation.openDrawer() as DrawerNavigationProp<RoutesClientList>;
 						}}>
 						<Icon as={Feather} name="menu" size={10} color="#fff"></Icon>
 					</Pressable>
@@ -41,7 +44,7 @@ const Header: React.FC<HeaderParams> = ({ navigation, type, children }) => {
 					</Pressable>
 					<Pressable
 						onPress={() => {
-							navigation.navigate('AccountScreen');
+							navigation.navigate('FlowAccountScreen');
 						}}>
 						<Avatar
 							source={user?.Photo != null ? { uri: user.Photo } : userPhoto}

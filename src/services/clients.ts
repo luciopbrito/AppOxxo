@@ -56,8 +56,27 @@ const createClient = async (client: Client): Promise<number | null> => {
 	}
 };
 
+const changePassword = async (
+	idClient: string,
+	newPassword: string,
+	lastPassword: string
+): Promise<number | null> => {
+	try {
+		const { status } = await api.put(`${baseUrl}?Id_Client=${idClient}`, {
+			Password: newPassword,
+			LastChangePassword: lastPassword,
+		});
+		return status;
+	} catch (error) {
+		console.error(error);
+		usePopup.warning('Error', error as string);
+		return null;
+	}
+};
+
 export const ClientService = {
 	getAllClients,
 	getClientByEmailAndPassword,
 	createClient,
+	changePassword,
 };

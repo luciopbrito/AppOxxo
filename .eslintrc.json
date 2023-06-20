@@ -1,35 +1,60 @@
 {
-	"env": {
-		"es2021": true,
-		"node": true
-	},
-	"extends": [
-		"plugin:react/recommended",
-		"standard-with-typescript",
-		"prettier"
-	],
-	"overrides": [],
-	"parserOptions": {
-		"ecmaVersion": "latest",
-		"sourceType": "module",
-		"project": "./tsconfig.json"
-	},
-	"plugins": ["react", "react-native", "@typescript-eslint/eslint-plugin"],
-	"rules": {
-		// permite escrever jsx em arquivos .js
-		"react/jsx-filename-extension": [
-			1,
-			{ "extensions": [".js", ".jsx", ".ts", ".tsx"] }
-		],
-
-		"no-use-before-define": ["error", { "variables": false }],
-
-		// ajustar para não passar erros com react-navigation
-		"react/prop-types": [
-			"error",
-			{ "ignore": ["navigation", "navigation.navigate"] }
-		],
-		"@typescript-eslint/consistent-type-definitions": ["error", "interface"],
-		"@typescript-eslint/strict-boolean-expressions": "off"
-	}
+  "env": {
+    "es2021": true,
+    "node": true
+  },
+  "ignorePatterns": [
+    "!.prettierrc.json"
+  ],
+  "extends": [
+    "plugin:react/recommended",
+    "standard-with-typescript",
+    "prettier"
+  ],
+  "overrides": [],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "react",
+    "react-native",
+    "@typescript-eslint/eslint-plugin"
+  ],
+  "rules": {
+    // permite escrever jsx em arquivos .js
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
+      }
+    ],
+    "no-use-before-define": [
+      "error",
+      {
+        "variables": false
+      }
+    ],
+    // ajustar para não passar erros com react-navigation
+    "react/prop-types": [
+      "error",
+      {
+        "ignore": [
+          "navigation",
+          "navigation.navigate"
+        ]
+      }
+    ],
+    "@typescript-eslint/consistent-type-definitions": [
+      "error",
+      "interface"
+    ],
+    "@typescript-eslint/strict-boolean-expressions": "off"
+  }
 }

@@ -5,41 +5,36 @@ import {
 	NativeBaseProvider,
 	Text,
 	VStack,
-} from "native-base";
-import React, { useEffect, useState } from "react";
-import MapView, { LatLng, Marker } from "react-native-maps";
-import Header from "../../components/Header";
-import useAuth, { UserSystem } from "../../contexts/Auth";
-import {
-	NavigationContainer,
-	NavigationProp,
-	RouteProp,
-	useNavigation,
-} from "@react-navigation/native";
-import { DrawerNavigationProp } from "@react-navigation/drawer";
-import { RoutesClientList } from "../../routes/routes.client";
-import { RoutesManagerList } from "../../routes/routes.manager";
-import { RoutesEmployeeList } from "../../routes/routes.employee";
-import { Filial } from "../../services/filial";
-import { FilialService } from "../../services/filial";
+} from 'native-base';
+import React, { useEffect, useState } from 'react';
+import MapView, { Marker } from 'react-native-maps';
+import Header from '../../components/Header';
+import useAuth, { UserSystem } from '../../contexts/Auth';
+import { type RouteProp, useNavigation } from '@react-navigation/native';
+import { type RoutesClientList } from '../../routes/routes.client';
+import { type RoutesManagerList } from '../../routes/routes.manager';
+import { type RoutesEmployeeList } from '../../routes/routes.employee';
+import { type Filial } from '../../services/filial';
+import { FilialService } from '../../services/filial';
+import { Guid } from 'guid-typescript';
 
-export type HomeScreenParams = {
+export interface HomeScreenParams {
 	// type: UserSystem
-};
+}
 
-type HomeScreenRouteProp = RouteProp<RoutesClientList, "HomeScreen">;
+type HomeScreenRouteProp = RouteProp<RoutesClientList, 'HomeScreen'>;
 
 const HomeScreen: React.FC<HomeScreenParams> = () => {
-	const { userType, user } = useAuth();
+	const { userType, user, setIdFilialSelected } = useAuth();
 	const [state, setState] = useState({
-		name: "",
-		filiais: [],
+		name: '',
+		filiais: [] as Filial[],
 	});
 	// const [animateMap, setAnimatedMap] = useState(new AnimatedMapView.Value(0))
 
 	const getFirstName = (): string | undefined => {
 		if (user) {
-			const firstName = user.Name.split(" ", 1)[0];
+			const firstName = user.Name.split(' ', 1)[0];
 			return firstName;
 		}
 	};
@@ -51,6 +46,11 @@ const HomeScreen: React.FC<HomeScreenParams> = () => {
 	// 		useNativeDriver: true,
 	// 	}).start()
 	// }
+
+	const handleGoFilial = (idFilial: string) => {
+		setIdFilialSelected(idFilial);
+		navigation.navigate('FlowCheckout');
+	};
 
 	useEffect(() => {
 		// console.log("entrou home com o id: ", route.params?.userId)
@@ -69,7 +69,7 @@ const HomeScreen: React.FC<HomeScreenParams> = () => {
 				}));
 			}
 		};
-
+		// eslint-disable-next-line
 		fetchFiliais();
 		// animation()
 	}, []);
@@ -81,22 +81,21 @@ const HomeScreen: React.FC<HomeScreenParams> = () => {
 			return (
 				<NativeBaseProvider>
 					<VStack flex="1" bgColor="#f00" mt="30">
-						<Header navigation={navigation} type={"full"} />
+						<Header nav={navigation} type={'full'} />
 						<Center>
-							<Text color="#fff" bold={true} fontSize={"md"} mb="5">
-								{user?.Genero == 1
+							<Text color="#fff" bold={true} fontSize={'md'} mb="5">
+								{user?.Genero === 1
 									? `Seja bem vindo, ${state.name}`
 									: `Seja bem vinda, ${state.name}`}
 							</Text>
 						</Center>
 						<VStack h="full">
-							<HStack w="full" justifyContent={"center"}>
+							<HStack w="full" justifyContent={'center'}>
 								<Box
 									zIndex={2000}
 									backgroundColor="#FBB110"
 									borderTopRadius={200}
-									w="50%"
-								>
+									w="50%">
 									<Center>
 										<Text fontSize="sm" color="#fff">
 											Escolha sua unidade
@@ -106,7 +105,7 @@ const HomeScreen: React.FC<HomeScreenParams> = () => {
 							</HStack>
 							{/* <AnimatedMapView style={{ height: animateMap }}> */}
 							<MapView
-								style={{ height: "70.5%" }}
+								style={{ height: '70.5%' }}
 								initialRegion={{
 									latitude: -23.4727966,
 									longitude: -46.5333825,
@@ -114,8 +113,7 @@ const HomeScreen: React.FC<HomeScreenParams> = () => {
 									longitudeDelta: 0.00421,
 								}}
 								minZoomLevel={17}
-								showsUserLocation={true}
-							>
+								showsUserLocation={true}>
 								{state.filiais.map((filial: Filial) => (
 									<Marker
 										key={filial.Id_Filial}
@@ -124,18 +122,17 @@ const HomeScreen: React.FC<HomeScreenParams> = () => {
 											longitude: filial.Address.longitude,
 										}}
 										title={filial.Name_Filial}
-										onPress={() => navigation.navigate("ProdutosScreen")}
+										onPress={() => handleGoFilial(filial.Id_Filial)}
 									/>
 								))}
 							</MapView>
 							{/* </AnimatedMapView> */}
-							<HStack w="full" justifyContent={"center"}>
+							<HStack w="full" justifyContent={'center'}>
 								<Box
 									backgroundColor="#FBB110"
 									borderBottomRadius={100}
 									w="50%"
-									h="5"
-								></Box>
+									h="5"></Box>
 							</HStack>
 						</VStack>
 					</VStack>
@@ -145,7 +142,7 @@ const HomeScreen: React.FC<HomeScreenParams> = () => {
 			navigation = useNavigation<RoutesEmployeeList>();
 			return (
 				<NativeBaseProvider>
-					<Box flex={1} justifyContent={"center"} alignItems={"center"}>
+					<Box flex={1} justifyContent={'center'} alignItems={'center'}>
 						<Text>Home Funcionário</Text>
 					</Box>
 				</NativeBaseProvider>
@@ -154,7 +151,7 @@ const HomeScreen: React.FC<HomeScreenParams> = () => {
 			navigation = useNavigation<RoutesManagerList>();
 			return (
 				<NativeBaseProvider>
-					<Box flex={1} justifyContent={"center"} alignItems={"center"}>
+					<Box flex={1} justifyContent={'center'} alignItems={'center'}>
 						<Text>Home Gerente</Text>
 					</Box>
 				</NativeBaseProvider>

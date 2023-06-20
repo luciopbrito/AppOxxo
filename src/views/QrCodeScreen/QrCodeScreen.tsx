@@ -1,23 +1,30 @@
-import { NativeBaseProvider, Image } from "native-base";
-import React from "react";
-import { View } from "react-native";
-import qrcode from "../../assets/qrCode.png";
+import { type RouteProp } from '@react-navigation/native';
+import { NativeBaseProvider, VStack, Text } from 'native-base';
+import React from 'react';
+import { View } from 'react-native';
+// import { RNCamera } from 'react-native-camera';
+// import QRCodeScanner from 'react-native-qrcode-scanner';
+import { type RoutesFlowCheckoutList } from '../../routes/routes.flow-checkout';
+// import qrcode from "../../assets/qrCode.png";
 
 // import { Container } from './styles';
 
-export type QrCodeScreenParams = {};
+// eslint-disable-next-line
+type QrCodeScreenRouteProp = RouteProp<
+	RoutesFlowCheckoutList,
+	'CreditCardScreen'
+>;
+
+// eslint-disable-next-line
+export interface QrCodeScreenParams {}
 
 const QrCodeScreen: React.FC<QrCodeScreenParams> = () => {
 	return (
-		<NativeBaseProvider>
-			<View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-				<Image
-					source={{
-						uri: "",
-					}}
-				/>
-			</View>
-		</NativeBaseProvider>
+		<View />
+		// <QRCodeScanner
+		// 	onRead={() => {}}
+		// 	flashMode={RNCamera.Constants.FlashMode.off}
+		// />
 	);
 };
 

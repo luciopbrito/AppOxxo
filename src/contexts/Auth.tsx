@@ -9,6 +9,16 @@ import { type Employee, EmployeeService } from '../services/employees';
 import { type Manager, ManagerService } from '../services/managers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { usePopup } from '../services/popups';
+import { type ListProducts } from '../views/ProductsScreen';
+import { Guid } from 'guid-typescript';
+import {
+	type AutonomousOrder,
+	AutonomousOrdersServices,
+} from '../services/autonomous-orders';
+import {
+	type ProductListing,
+	ProductsListingService,
+} from '../services/product-listing';
 
 export enum UserSystem {
 	Client = 1,
@@ -21,6 +31,7 @@ interface AuthContextData {
 	setUser: React.Dispatch<
 		React.SetStateAction<Client | Employee | Manager | null>
 	>;
+	setIdFilialSelected: React.Dispatch<React.SetStateAction<string | null>>;
 	signIn: (
 		email: string | undefined,
 		password: string | undefined,
@@ -28,7 +39,13 @@ interface AuthContextData {
 	) => Promise<void>;
 	user: Client | Employee | Manager | null;
 	userType: UserSystem | undefined;
+	idFilialSelected: string | null;
 	setUserType: React.Dispatch<React.SetStateAction<UserSystem | undefined>>;
+	listProducts: ListProducts[] | undefined;
+	setlistProducts: React.Dispatch<
+		React.SetStateAction<ListProducts[] | undefined>
+	>;
+	handleCheckout: () => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -46,6 +63,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 	const [tryLogin, setTryLogin] = useState<number>(0);
 	const [askCreateAccount, setAskCreateAccount] = useState<boolean>(false);
 	const navigation = useNavigation<NavigationProp<ParamListBase>>();
+	const [idFilialSelected, setIdFilialSelected] = useState<string | null>(null);
+	const [listProducts, setlistProducts] = useState<ListProducts[] | undefined>(
+		undefined
+	);
 
 	useEffect(() => {
 		// eslint-disable-next-line no-use-before-define
@@ -237,16 +258,96 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		}
 	}
 
+	const handleCheckout = async (): Promise<void> => {
+		const client = user as Client;
+
+		let guid = Guid.create();
+
+		while (
+			(await AutonomousOrdersServices.checkGuidAutonomousOrders(
+				guid.toString()
+			)) !== null
+		) {
+			guid = Guid.create();
+		}
+
+		const autonomousOrder: AutonomousOrder = {
+			Id_AutonomousOrders: guid,
+			Id_Client: client.Id_Client,
+			Id_Coupon: null,
+		};
+
+		if (
+			(await AutonomousOrdersServices.createAutonomousOrders(
+				autonomousOrder
+			)) === 201
+		) {
+			await createProductsList(autonomousOrder);
+		}
+	};
+
+	const createProductsList = async (
+		autonomousOrder: AutonomousOrder
+	): Promise<void> => {
+		const guidToProducts: Guid[] = await getValidGuids(
+			listProducts?.length as number
+		);
+		const productsToPersiste: ProductListing[] = [];
+
+		listProducts?.forEach((e, i) => {
+			// eslint-disable-next-line
+			let productToSave: ProductListing = {
+				Id_ProductList: guidToProducts[i],
+				Id_Order: autonomousOrder.Id_AutonomousOrders,
+				Id_Product: e.product.Id_Product,
+				Quant_produto: e.quantity,
+				IsAutonomuos: 1,
+			};
+
+			productsToPersiste.push(productToSave);
+		});
+
+		for (let i = 0; i < productsToPersiste.length; i++) {
+			await ProductsListingService.createProductListing(productsToPersiste[i]);
+		}
+	};
+
+	const checkGuidProductList = async (guid: string): Promise<boolean> => {
+		if ((await ProductsListingService.checkGuidProductListing(guid)) === null) {
+			return true;
+		}
+		return false;
+	};
+
+	const getValidGuids = async (quantity: number): Promise<Guid[]> => {
+		const guids: Guid[] = [];
+		let guid = Guid.create();
+		for (let i = 0; guids.length < quantity; i++) {
+			while (!(await checkGuidProductList(guid.toString()))) {
+				guid = Guid.create();
+			}
+
+			guids.push(guid);
+		}
+
+		return guids;
+	};
+
 	return (
 		<AuthContext.Provider
 			value={{
 				authData,
 				setAuthData,
 				setUser,
+				setIdFilialSelected,
+				idFilialSelected,
 				signIn,
 				user,
 				userType,
 				setUserType,
+				listProducts,
+				setlistProducts,
+				handleCheckout,
 			}}>
 			{children}
 		</AuthContext.Provider>
